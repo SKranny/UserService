@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
 
-@FeignClient(value = "authClient", url = "https://localhost:8081/api/v1/auth")
+@FeignClient(value = "authClient", url = "http://localhost:8081/api/v1/auth")
 public interface AuthClient {
     @PostMapping("/login")
-     String login(LoginRequest request);
+     String login(@RequestBody LoginRequest request);
 
     @PostMapping("/logout")
     LogoutResponse logout(HttpServletRequest request);

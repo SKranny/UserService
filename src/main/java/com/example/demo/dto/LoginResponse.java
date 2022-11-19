@@ -1,5 +1,6 @@
 package com.example.demo.dto;
 
+import com.example.demo.model.Person;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
