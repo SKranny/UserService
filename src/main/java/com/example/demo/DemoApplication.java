@@ -4,7 +4,6 @@ import com.example.demo.feighnClient.AuthClient;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.web.bind.annotation.*;
 
 @SpringBootApplication
 @EnableFeignClients (clients = {

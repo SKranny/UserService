@@ -1,6 +1,5 @@
-package com.example.demo.authService;
+package com.example.demo.dto;
 
-import com.example.demo.dto.PersonDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
@@ -25,5 +24,5 @@ public class LoginResponse {
     private Long timestamp = System.currentTimeMillis();
 
     @JsonProperty("data")
-    private PersonDTO personDTO;
+    private PersonDTO personData;
 }
