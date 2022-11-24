@@ -2,24 +2,24 @@ package com.example.demo.model;
 
 import com.example.demo.enums.MessagesPermission;
 import com.example.demo.enums.Role;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Entity
 @Table (name = "person")
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Person {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", nullable = false)
     private Long id;
     @Column (name = "first_name")
     private String firstName;
@@ -45,12 +45,14 @@ public class Person {
     private Integer confirmationCode;
     @Column (name = "is_approved")
     private Boolean isApproved;
+    @Enumerated(EnumType.ORDINAL)
     @Column (name = "messages_permission")
     private MessagesPermission messagesPermission;
     @Column (name = "last_online_time")
     private LocalDate lastOnlineTime;
     @Column (name = "is_blocked")
     private Boolean isBlocked;
+    @Enumerated(EnumType.ORDINAL)
     @Column (name = "role")
     private Role role;
 

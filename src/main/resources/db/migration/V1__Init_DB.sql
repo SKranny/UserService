@@ -1,6 +1,5 @@
-create sequence hibernate_sequence start 1 increment 1;
-create table person (
-id int4 not null,
+create table if not exists "public".person (
+id bigserial  not null PRIMARY KEY ,
  about varchar(2048),
  birth_day date,
  confirmation_code int4,

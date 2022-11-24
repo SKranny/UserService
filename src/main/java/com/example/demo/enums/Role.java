@@ -1,8 +1,6 @@
 package com.example.demo.enums;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+
 
 
 public enum Role {
