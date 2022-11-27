@@ -4,10 +4,11 @@ import com.example.demo.model.Person;
 import com.example.demo.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class PersonServiceImpl implements PersonService{
 
-    private PersonRepository personRepository;
+    private final PersonRepository personRepository;
 
     public PersonServiceImpl(PersonRepository personRepository) {
         this.personRepository = personRepository;
@@ -15,6 +16,7 @@ public class PersonServiceImpl implements PersonService{
 
     @Override
     public void createPerson(Person person) {
+
         personRepository.save(person);
 
     }

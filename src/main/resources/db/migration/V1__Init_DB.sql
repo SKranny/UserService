@@ -1,5 +1,5 @@
 create table if not exists "public".person (
-id bigserial  not null PRIMARY KEY ,
+id bigserial  not null,
  about varchar(2048),
  birth_day date,
  confirmation_code int4,
@@ -10,11 +10,11 @@ id bigserial  not null PRIMARY KEY ,
  is_blocked boolean,
  last_name varchar(255),
  last_online_time timestamp,
- messages_permission int4,
+ messages_permission varchar(255),
  password varchar(255),
  phone varchar(255),
  photo varchar(255),
  reg_date date,
- role int4,
+ role varchar(255),
  primary key (id)
  );

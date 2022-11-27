@@ -17,7 +17,7 @@
  role,
  id)
  values (
- 'I don`t know what to say about myself',
+ 'I love to read books, watch movies, listen to music',
  '1995-11-11',
  12345,
  'Russia, Yakutsk',
@@ -27,11 +27,11 @@
  'false',
  'Попов',
  '2022-11-09',
- 0,
+ 'ALL',
  'password124',
   79039939393,
   'somelink.ru',
    '2022-11-09',
-   1,
+   'ROLE_USER',
    1);
 

@@ -6,7 +6,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 
 @Entity
@@ -18,7 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Person {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
     @Column (name = "first_name")
@@ -45,14 +44,14 @@ public class Person {
     private Integer confirmationCode;
     @Column (name = "is_approved")
     private Boolean isApproved;
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @Column (name = "messages_permission")
     private MessagesPermission messagesPermission;
     @Column (name = "last_online_time")
     private LocalDate lastOnlineTime;
     @Column (name = "is_blocked")
     private Boolean isBlocked;
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @Column (name = "role")
     private Role role;
 

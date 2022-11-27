@@ -3,7 +3,6 @@ package com.example.demo.feighnClient;
 
 
 import com.example.demo.dto.LoginRequest;
-import com.example.demo.dto.LoginResponse;
 import com.example.demo.dto.LogoutResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
