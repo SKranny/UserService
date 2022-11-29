@@ -1,7 +1,6 @@
 server:
   port: 8080
 
-
 spring:
   application:
     name: auth-service
@@ -10,13 +9,13 @@ spring:
   freemarker:
     expose-request-attributes: true
   flyway:
-    check-location: false
     baseline-on-migrate: true
+    fail-on-missing-locations: false
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://localhost:5432/person_service
     username: postgres
-    password: bestuser
+    password: ${PERSON_SERVICE_DATABASE_PASSWORD}
 
   jpa:
     generate-ddl: false
