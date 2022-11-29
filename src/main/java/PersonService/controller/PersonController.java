@@ -15,7 +15,6 @@ public class PersonController {
 
     @PostMapping
     public PersonDTO createPerson(@Valid @RequestBody PersonDTO personDTO) {
-        Integer a = 1;
          return personService.createPerson(personDTO);
     }
 
