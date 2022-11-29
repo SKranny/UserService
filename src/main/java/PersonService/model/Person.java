@@ -3,9 +3,9 @@ package PersonService.model;
 import PersonService.enums.MessagesPermission;
 import PersonService.enums.StatusCode;
 import lombok.*;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -57,12 +57,14 @@ public class Person {
     @Builder.Default
     private Boolean isDeleted = false;
 
+    @NotNull
+    @Column(nullable = false)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "person2role",
             joinColumns = @JoinColumn(name = "person_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
-    private Set<Role> role;
+    private Set<Role> roles;
 
     @Builder.Default
     private LocalDateTime createdOn = LocalDateTime.now();
