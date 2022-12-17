@@ -1,7 +1,7 @@
 package PersonService.model;
 
-import PersonService.enums.MessagesPermission;
-import PersonService.enums.StatusCode;
+import PersonService.mappers.enums.StatusCode;
+import constants.MessagesPermission;
 import lombok.*;
 
 import javax.persistence.*;

@@ -1,7 +1,7 @@
 package PersonService.controller;
 
 import PersonService.service.PersonService;
-import PersonService.dto.PersonDTO;
+import dto.userDto.PersonDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

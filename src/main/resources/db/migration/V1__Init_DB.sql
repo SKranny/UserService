@@ -1,10 +1,10 @@
-CREATE TABLE address (
+CREATE TABLE IF NOT EXISTS address (
     id                  BIGSERIAL PRIMARY KEY,
     city                VARCHAR(255) NOT NULL,
     country             VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE person (
+CREATE TABLE IF NOT EXISTS person (
     id                  BIGSERIAL PRIMARY KEY,
     email               VARCHAR(255) UNIQUE,
     phone               VARCHAR(255),
@@ -25,14 +25,14 @@ CREATE TABLE person (
     password            VARCHAR(255)
  );
 
-CREATE TABLE role (
+CREATE TABLE IF NOT EXISTS role (
     id                  BIGSERIAL PRIMARY KEY,
     role                VARCHAR(255) NOT NULL
 );
 
 INSERT INTO role (role) VALUES ('ROLE_USER'), ('ROLE_ADMIN'), ('ROLE_MODERATOR');
 
-CREATE TABLE person2role (
+CREATE TABLE IF NOT EXISTS person2role (
     person_id           BIGINT NOT NULL REFERENCES person(id),
     role_id             BIGINT NOT NULL REFERENCES role(id)
 );

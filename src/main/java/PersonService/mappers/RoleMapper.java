@@ -1,9 +1,9 @@
 package PersonService.mappers;
 
-import PersonService.enums.RoleType;
 import PersonService.exception.PersonException;
 import PersonService.model.Role;
 import PersonService.repository.RoleRepository;
+import constants.RoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

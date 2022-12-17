@@ -1,7 +1,6 @@
 package PersonService.service;
 
-import PersonService.dto.PersonDTO;
-
+import dto.userDto.PersonDTO;
 
 public interface PersonService {
 
