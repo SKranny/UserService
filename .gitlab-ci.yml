@@ -31,7 +31,7 @@ build:
         - tags
     script:
         - echo 'Build project'
-        - 'mvn $MAVEN_CLI_OPTS clean compile -U'
+        - 'mvn clean compile -Dmaven.repo.local=./.m2/repository -U'
     cache:
         paths:
             - ./target
@@ -44,7 +44,7 @@ package:
     except:
         - tags
     script:
-        - 'mvn $MAVEN_CLI_OPTS package -U'
+        - 'mvn package -Dmaven.repo.local=./.m2/repository -U'
     artifacts:
         paths:
             - target/*.jar
