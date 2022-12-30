@@ -22,10 +22,8 @@ public class PersonServiceImpl implements PersonService{
 
     @Override
     public PersonDTO createPerson(PersonDTO personDTO) {
-
         if(CollectionUtils.isEmpty(personDTO.getRoles())){
             personDTO.setRoles(Collections.singleton(RoleType.ROLE_USER));
-
         }
         return personMapper.toPersonDTO(personRepository.save(personMapper.toPerson(personDTO)));
     }
