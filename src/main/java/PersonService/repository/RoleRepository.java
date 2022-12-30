@@ -1,7 +1,7 @@
 package PersonService.repository;
 
-import PersonService.enums.RoleType;
 import PersonService.model.Role;
+import constants.RoleType;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 

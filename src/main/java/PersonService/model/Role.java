@@ -1,6 +1,6 @@
 package PersonService.model;
 
-import PersonService.enums.RoleType;
+import constants.RoleType;
 import lombok.*;
 
 import javax.persistence.*;

@@ -1,7 +1,7 @@
 package PersonService.mappers;
 
-import PersonService.enums.RoleType;
 import PersonService.model.Role;
+import constants.RoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +20,8 @@ public class RoleSetMapper {
     }
 
     public Set<RoleType> toRoleTypeSet(Set<Role> roles) {
+        //Здесь проверить, если персона пуста, то создать новый персона узера
+
         return roles.stream()
                 .map(roleMapper::toRoleType)
                 .collect(Collectors.toSet());

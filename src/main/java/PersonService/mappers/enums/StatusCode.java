@@ -1,4 +1,4 @@
-package PersonService.enums;
+package PersonService.mappers.enums;
 
 public enum StatusCode {
     FRIEND,
