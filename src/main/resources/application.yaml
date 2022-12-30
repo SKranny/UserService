@@ -12,7 +12,7 @@ spring:
     fail-on-missing-locations: false
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/person_service
+    url: ${PERSON_SERVICE_DATABASE_URL:jdbc:postgresql://localhost:5432/person_service}
     username: postgres
     password: ${PERSON_SERVICE_DATABASE_PASSWORD}
 
