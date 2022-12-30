@@ -4,8 +4,6 @@ server:
 spring:
   application:
     name: auth-service
-    config:
-      import: http://localhost:8081/
   freemarker:
     expose-request-attributes: true
   flyway:
