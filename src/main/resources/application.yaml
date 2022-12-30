@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: auth-service
+    name: person-service
   freemarker:
     expose-request-attributes: true
   flyway:
