@@ -1,5 +1,9 @@
 image: maven:3.8.6-openjdk-11
 
+cache:
+    paths:
+        - .m2/repository
+        -
 services:
     - name: docker:dind
       alias: dockerdaemon
@@ -26,7 +30,7 @@ build:
         - tags
     script:
         - echo 'Build project'
-        - 'mvn -Dmaven.repo.local=./.m2/repository compile'
+        - 'mvn -Dmaven.repo.local=.m2/repository compile'
     cache:
         paths:
             - ./target
