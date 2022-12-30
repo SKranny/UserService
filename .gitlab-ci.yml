@@ -31,7 +31,7 @@ build:
         - tags
     script:
         - echo 'Build project'
-        - 'mvn clean compile $MAVEN_OPTS'
+        - 'mvn clean compile $MAVEN_CLI_OPTS'
     cache:
         paths:
             - ./target
@@ -44,7 +44,7 @@ package:
     except:
         - tags
     script:
-        - 'mvn package $MAVEN_OPTS'
+        - 'mvn package $MAVEN_CLI_OPTS'
     artifacts:
         paths:
             - target/*.jar
