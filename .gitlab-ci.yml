@@ -15,6 +15,7 @@ variables:
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
     MAVEN_OPTS: "-Djava.awt.headless=true -Dmaven.repo.local=./.m2/repository"
+    MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
 
 stages:
     - build
@@ -30,7 +31,7 @@ build:
         - tags
     script:
         - echo 'Build project'
-        - 'mvn clean compile $MAVEN_CLI_OPTS'
+        - 'mvn clean compile $MAVEN_OPTS'
     cache:
         paths:
             - ./target
@@ -43,7 +44,7 @@ package:
     except:
         - tags
     script:
-        - 'mvn package $MAVEN_CLI_OPTS'
+        - 'mvn package $MAVEN_OPTS'
     artifacts:
         paths:
             - target/*.jar
