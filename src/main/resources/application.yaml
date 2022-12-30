@@ -25,3 +25,8 @@ spring:
             non_contextual_creation: true
         ddl-auto: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8081/eureka}
