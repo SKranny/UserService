@@ -14,13 +14,13 @@ variables:
     DOCKER_HOST: tcp://dockerdaemon:2375/
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
+    MAVEN_OPTS: "-Djava.awt.headless=true -Dmaven.repo.local=./.m2/repository"
 
 stages:
     - build
     - package
     - build and push image
     - deploy
-
 
 build:
     stage: build
@@ -30,7 +30,7 @@ build:
         - tags
     script:
         - echo 'Build project'
-        - 'mvn -Dmaven.repo.local=.m2/repository compile'
+        - 'mvn clean compile $MAVEN_CLI_OPTS'
     cache:
         paths:
             - ./target
@@ -43,7 +43,7 @@ package:
     except:
         - tags
     script:
-        - 'mvn package -Dmaven.test.skip=true'
+        - 'mvn package $MAVEN_CLI_OPTS'
     artifacts:
         paths:
             - target/*.jar
