@@ -1,11 +1,10 @@
 server:
-  port: 8080
+  port: ${SERVER_PORT:8083}
 
 spring:
   application:
-    name: auth-service
-    config:
-      import: http://localhost:8081/
+    name: person-service
+
   freemarker:
     expose-request-attributes: true
   flyway:
@@ -27,3 +26,8 @@ spring:
             non_contextual_creation: true
         ddl-auto: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8081/eureka}

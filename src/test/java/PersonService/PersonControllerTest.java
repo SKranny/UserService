@@ -2,10 +2,8 @@ package PersonService;
 
 import PersonService.controller.PersonController;
 import PersonService.service.PersonService;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import constants.MessagesPermission;
-import constants.RoleType;
 import constants.StatusCode;
 import dto.userDto.PersonDTO;
 import org.hamcrest.Matchers;
@@ -72,7 +70,6 @@ public class PersonControllerTest {
                 .andExpect(jsonPath("$.statusCode", Matchers.is(StatusCode.NONE.toString())))
                 .andExpect(jsonPath("$.firstName", Matchers.is("Evgeny")))
                 .andExpect(jsonPath("$.lastName", Matchers.is("Smirnov")));
-               // .andExpect(jsonPath("$.roles", Matchers.is(RoleType.ROLE_USER)));
 
 
     }

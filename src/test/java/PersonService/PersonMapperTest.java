@@ -8,71 +8,48 @@ import constants.StatusCode;
 import dto.userDto.PersonDTO;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.mapstruct.Context;
-import org.mapstruct.factory.Mappers;
+import org.junit.runner.RunWith;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@SpringBootTest
-public class PersonMapperTest {
-    private Person person;
-    private PersonDTO personDTO;
 
+@SpringBootTest
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration
+public class PersonMapperTest {
 
     private PersonMapper personMapper;
+
     @Autowired
     public void setPersonMapper(PersonMapper personMapper) {
         this.personMapper = personMapper;
     }
-
-    @BeforeEach
-    public void init(){
-
-
-         person = Person.builder()
-                .id(1L)
-                .email("some@mail.com")
-                .phone("+79050534533")
-                .photo("someurl.com")
-                .about("I like to drink coffee")
-                .firstName("Evgeny")
-                .lastName("Smirnov")
-                .birthDay(LocalDate.of(1995, 12, 19))
-                .messagesPermission(MessagesPermission.ALL)
-                .lastOnlineTime(LocalDateTime.of(2022, 12, 05, 22, 35))
-                .build();
-
-
-         personDTO = PersonDTO.builder()
-                .id(1L)
-                .email("some@mail.com")
-                .phone("+79050534533")
-                .photo("someurl.com")
-                .about("I like to drink coffee")
-                .statusCode(StatusCode.NONE)
-                .firstName("Evgeny")
-                .lastName("Smirnov")
-                .birthDay(LocalDate.of(1995, 12, 19))
-                .messagesPermission(MessagesPermission.ALL)
-                .lastOnlineTime(LocalDateTime.of(2022, 12, 05, 22, 35))
-                .build();
-
-
-    }
-
 
 
     @Test
     public void mapPersonToDtoTest() {
 
 
+        Person person = Person.builder()
+                .id(1L)
+                .email("some@mail.com")
+                .phone("+79050534533")
+                .photo("someurl.com")
+                .about("I like to drink coffee")
+                .firstName("Evgeny")
+                .lastName("Smirnov")
+                .birthDay(LocalDate.of(1995, 12, 19))
+                .messagesPermission(MessagesPermission.ALL)
+                .lastOnlineTime(LocalDateTime.of(2022, 12, 05, 22, 35))
+                .build();
 
-         personDTO = personMapper.toPersonDTO(person);
+        PersonDTO personDTO = personMapper.toPersonDTO(person);
 
         Assertions.assertNotNull(personDTO);
         Assertions.assertEquals(person.getId(), personDTO.getId());
@@ -88,11 +65,24 @@ public class PersonMapperTest {
 
     }
 
-
     @Test
     public void mapDtoToPersonTest() {
 
-         person = personMapper.toPerson(personDTO);
+        PersonDTO personDTO = PersonDTO.builder()
+                .id(1L)
+                .email("some@mail.com")
+                .phone("+79050534533")
+                .photo("someurl.com")
+                .about("I like to drink coffee")
+                .statusCode(StatusCode.NONE)
+                .firstName("Evgeny")
+                .lastName("Smirnov")
+                .birthDay(LocalDate.of(1995, 12, 19))
+                .messagesPermission(MessagesPermission.ALL)
+                .lastOnlineTime(LocalDateTime.of(2022, 12, 05, 22, 35))
+                .build();
+
+        Person person = personMapper.toPerson(personDTO);
 
         Assertions.assertNotNull(personDTO);
         Assertions.assertEquals(personDTO.getId(), person.getId());

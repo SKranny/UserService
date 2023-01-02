@@ -1,15 +1,12 @@
 package PersonService.service;
 
-import constants.RoleType;
 import PersonService.exception.PersonException;
 import PersonService.mappers.PersonMapper;
 import PersonService.repository.PersonRepository;
 import dto.userDto.PersonDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
 
 
 @Service
@@ -23,10 +20,7 @@ public class PersonServiceImpl implements PersonService{
     @Override
     public PersonDTO createPerson(PersonDTO personDTO) {
 
-        if(CollectionUtils.isEmpty(personDTO.getRoles())){
-            personDTO.setRoles(Collections.singleton(RoleType.ROLE_USER));
 
-        }
         return personMapper.toPersonDTO(personRepository.save(personMapper.toPerson(personDTO)));
     }
 
