@@ -26,6 +26,7 @@
 
 	<dependencies>
 
+
 		<dependency>
 			<groupId>org.example</groupId>
 			<artifactId>common-lib</artifactId>
