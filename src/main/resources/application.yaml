@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: ${SERVER_PORT:8083}
 
 spring:
   application:
@@ -20,10 +20,10 @@ spring:
     show-sql: true
     properties:
       hibernate:
+        ddl-auto: none
         jdbc:
           lob:
             non_contextual_creation: true
-        ddl-auto: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 eureka:
