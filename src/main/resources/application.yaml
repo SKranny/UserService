@@ -4,7 +4,6 @@ server:
 spring:
   application:
     name: person-service
-
   freemarker:
     expose-request-attributes: true
   flyway:
@@ -12,7 +11,7 @@ spring:
     fail-on-missing-locations: false
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/person-service
+    url: ${PERSON_SERVICE_DATABASE_URL:jdbc:postgresql://localhost:5432/person_service}
     username: postgres
     password: ${PERSON_SERVICE_DATABASE_PASSWORD}
 
@@ -21,13 +20,15 @@ spring:
     show-sql: true
     properties:
       hibernate:
+        ddl-auto: none
         jdbc:
           lob:
             non_contextual_creation: true
-        ddl-auto: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 eureka:
+  instance:
+    lease-expiration-duration-in-seconds: 30
   client:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8081/eureka}
