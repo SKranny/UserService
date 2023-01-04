@@ -1,9 +1,6 @@
 package PersonService.mappers;
-import constants.MessagesPermission;
-import constants.RoleType;
 import PersonService.model.Person;
 import dto.userDto.PersonDTO;
-import dto.userDto.AddressDTO;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
