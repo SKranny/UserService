@@ -1,17 +1,15 @@
 package PersonService.service;
 
-import PersonService.aws.AwsClient;
 import PersonService.exception.PersonException;
 import PersonService.mappers.PersonMapper;
 import PersonService.model.Person;
 import PersonService.repository.PersonRepository;
+import aws.AwsClient;
 import dto.userDto.PersonDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.Optional;
 
 
 @Service
@@ -44,7 +42,7 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
-    public PersonDTO uploadPhoto(MultipartFile file,Integer id) throws IOException {
+    public PersonDTO uploadPhoto(MultipartFile file,Integer id) throws Exception {
         Person person = personRepository.findById(id).get();
         person.setPhoto(awsClient.uploadImage(file));
         return personMapper.toPersonDTO(personRepository.save(person));
