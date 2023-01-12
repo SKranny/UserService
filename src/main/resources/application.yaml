@@ -30,5 +30,7 @@ eureka:
   instance:
     lease-expiration-duration-in-seconds: 30
   client:
+    healthcheck:
+      enabled: true
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8081/eureka}
