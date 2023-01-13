@@ -4,6 +4,7 @@ import PersonService.service.PersonService;
 import dto.userDto.PersonDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -26,5 +27,10 @@ public class PersonController {
     @PutMapping
     public void updateCustomer(@RequestBody PersonDTO personDTO) {
         personService.updateCustomer(personDTO);
+    }
+
+    @PostMapping("/upload")
+    public PersonDTO uploadPhoto(@RequestBody MultipartFile file, Integer id) {
+        return personService.uploadPhoto(file,id);
     }
 }

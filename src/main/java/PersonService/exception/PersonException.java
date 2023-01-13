@@ -15,4 +15,8 @@ public class PersonException extends RuntimeException{
     public PersonException(String message) {
         this(message, HttpStatus.BAD_REQUEST);
     }
+
+    public PersonException(Throwable ex, HttpStatus httpStatus) {
+        this(ex.getMessage(), httpStatus);
+    }
 }
