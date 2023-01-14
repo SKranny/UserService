@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class PersonServiceImpl implements PersonService{
+public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;
 
@@ -44,7 +44,7 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
-    public PersonDTO uploadPhoto(MultipartFile file,Integer id) {
+    public PersonDTO uploadPhoto(MultipartFile file, Long id) {
         Person person = personRepository.findById(id)
                 .orElseThrow(() -> new PersonException("Error! Person not found!"));
         setPersonPhoto(person, file);

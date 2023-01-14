@@ -23,5 +23,5 @@ public class Address {
     private String city;
 
     @NotBlank
-    private String town;
+    private String country;
 }
