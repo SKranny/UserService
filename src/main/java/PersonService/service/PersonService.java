@@ -1,8 +1,10 @@
 package PersonService.service;
 
+import PersonService.dto.LoginRequest;
 import dto.userDto.PersonDTO;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 
 public interface PersonService {
@@ -14,4 +16,25 @@ public interface PersonService {
     PersonDTO findByEmail(String email);
 
     void updateCustomer(PersonDTO personDTO);
+
+    List<PersonDTO> findAllAccounts();
+
+    PersonDTO recoveryPerson(LoginRequest loginRequest);
+
+    PersonDTO blockById(Long id);
+
+    PersonDTO unblockById(Long id);
+
+    PersonDTO getMyAccount();
+
+    PersonDTO editMyAccount();
+
+    PersonDTO deleteMyAccount();
+
+    PersonDTO searchByFilter();
+
+    PersonDTO search();
+
+    List<Long> getAllIds();
+
 }
