@@ -9,7 +9,7 @@ public interface PersonService {
 
     PersonDTO createPerson(PersonDTO personDTO);
 
-    PersonDTO uploadPhoto(MultipartFile file, Integer id);
+    PersonDTO uploadPhoto(MultipartFile file, String email);
 
     PersonDTO findByEmail(String email);
 

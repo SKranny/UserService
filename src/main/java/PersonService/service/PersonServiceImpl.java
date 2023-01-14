@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.stream.Collectors;
-
 
 @Service
 @RequiredArgsConstructor
@@ -44,8 +42,8 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
-    public PersonDTO uploadPhoto(MultipartFile file,Integer id) {
-        Person person = personRepository.findById(id)
+    public PersonDTO uploadPhoto(MultipartFile file,String email) {
+        Person person = personRepository.findPersonByEmail(email)
                 .orElseThrow(() -> new PersonException("Error! Person not found!"));
         setPersonPhoto(person, file);
 
