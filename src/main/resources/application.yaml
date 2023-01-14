@@ -28,7 +28,8 @@ spring:
 
 eureka:
   instance:
-    lease-expiration-duration-in-seconds: 30
+    leaseRenewalIntervalInSeconds: 5
+    lease-expiration-duration-in-seconds: 5
   client:
     healthcheck:
       enabled: true
