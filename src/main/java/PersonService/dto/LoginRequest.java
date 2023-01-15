@@ -1,5 +1,6 @@
 package PersonService.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,11 +13,14 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Schema(description = "Сущность запроса логина")
 public class LoginRequest {
     @NotBlank
     @Email
+    @Schema(description = "E-mail")
     private String email;
 
     @NotBlank
+    @Schema(description = "Пароль")
     private String password;
 }
