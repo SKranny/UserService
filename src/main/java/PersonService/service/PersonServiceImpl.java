@@ -42,12 +42,12 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public PersonDTO uploadPhoto(MultipartFile file, Long id) {
+    public String uploadPhoto(MultipartFile file, Long id) {
         Person person = personRepository.findById(id)
                 .orElseThrow(() -> new PersonException("Error! Person not found!"));
         setPersonPhoto(person, file);
-
-        return personMapper.toPersonDTO(personRepository.save(person));
+        personRepository.save(person);
+        return person.getPhoto();
     }
 
     private void setPersonPhoto(Person person, MultipartFile file) {

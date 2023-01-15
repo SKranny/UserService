@@ -30,7 +30,7 @@ public class PersonController {
     }
 
     @PostMapping("/upload")
-    public PersonDTO uploadPhoto(@RequestBody MultipartFile file, Long id) {
+    public String uploadPhoto(@RequestBody MultipartFile file, Long id) {
         return personService.uploadPhoto(file, id);
     }
 }
