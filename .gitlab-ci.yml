@@ -54,7 +54,7 @@ package:
             - ./.m2
 
 build_and_push_image:
-    image: docker:latest
+    image: docker:19.03.12
     stage: build and push image
     only:
         - develop
