@@ -61,7 +61,7 @@ build_and_push_image:
     except:
         - tags
     before_script:
-        - docker login -u $DOCKER_LOGIN -p $DOCKER_PASS docker.io
+        - docker login -u $DOCKER_LOGIN -p $DOCKER_PASS https://index.docker.io/v1/
     script:
         - docker build -t $DOCKER_LOGIN/person-service:latest .
         - docker push $DOCKER_LOGIN/person-service:latest
