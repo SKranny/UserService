@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -57,8 +58,8 @@ public class PersonController {
 
     @Operation(summary = "Получение аккаунта")
     @GetMapping("/me")
-    public PersonDTO getMyAccount() {
-        return personService.getMyAccount();
+    public PersonDTO getMyAccount(Principal principal) {
+        return personService.getMyAccount(principal.getName());
     }
 
     @Operation(summary = "Получение аккаунта")

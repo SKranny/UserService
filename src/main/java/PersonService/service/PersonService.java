@@ -25,7 +25,7 @@ public interface PersonService {
 
     PersonDTO unblockById(Long id);
 
-    PersonDTO getMyAccount();
+    PersonDTO getMyAccount(String email);
 
     PersonDTO editMyAccount();
 

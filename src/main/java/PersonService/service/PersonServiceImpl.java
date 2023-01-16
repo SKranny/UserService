@@ -105,10 +105,9 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public PersonDTO getMyAccount() {
-        Optional<Person> tempPerson = Optional.empty();
-        return tempPerson.map(personMapper::toPersonDTOWithoutAddress).orElseThrow(() ->
-                new PersonException("Warning! Установлена заглушка на getMyAccount!", HttpStatus.BAD_REQUEST));
+    public PersonDTO getMyAccount(String email) {
+        return personRepository.findPersonByEmail(email).map(personMapper::toPersonDTOWithoutAddress)
+                .orElseThrow(() -> new PersonException("Error! Unknown person", HttpStatus.UNAUTHORIZED));
     }
 
     @Override
