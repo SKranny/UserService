@@ -4,17 +4,17 @@ cache:
     paths:
         - .m2/repository
 
-services:
-    - name: docker:dind
-      alias: dockerdaemon
-      entrypoint: ["env", "-u", "DOCKER_HOST"]
-      command: ["dockerd-entrypoint.sh"]
+#services:
+#    - name: docker:dind
+#      alias: dockerdaemon
+#      entrypoint: ["env", "-u", "DOCKER_HOST"]
+#      command: ["dockerd-entrypoint.sh"]
 
-variables:
-    DOCKER_HOST: tcp://dockerdaemon:2375/
-    DOCKER_DRIVER: overlay2
-    DOCKER_TLS_CERTDIR: ""
-    MAVEN_OPTS: "-Dmaven.test.skip=true -Dmaven.repo.local=./.m2/repository"
+#variables:
+#    DOCKER_HOST: tcp://dockerdaemon:2375/
+#    DOCKER_DRIVER: overlay2
+#    DOCKER_TLS_CERTDIR: ""
+#    MAVEN_OPTS: "-Dmaven.test.skip=true -Dmaven.repo.local=./.m2/repository"
 
 stages:
     - build
