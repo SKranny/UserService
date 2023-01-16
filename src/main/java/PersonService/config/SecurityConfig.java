@@ -29,7 +29,7 @@ public class SecurityConfig {
             .csrf().disable()
             .authorizeHttpRequests()
             .antMatchers("api/v1/account/").authenticated()
-            .anyRequest().permitAll()
+            .antMatchers("docs/**").permitAll()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
