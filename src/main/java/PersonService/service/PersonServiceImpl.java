@@ -53,11 +53,24 @@ public class PersonServiceImpl implements PersonService {
 
     private void setPersonPhoto(Person person, MultipartFile file) {
         try {
-            person.setPhoto(awsClient.uploadImage(file));
+            if (file != null){
+                person.setPhoto(awsClient.uploadImage(file));
+            }else {
+                person.setPhoto(null);
+            }
         } catch (Exception ex) {
             throw new PersonException(ex, HttpStatus.BAD_REQUEST);
         }
     }
+
+    @Override
+    public String deletePhoto(Long id){
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new PersonException("Error! Person not found!"));
+        setPersonPhoto(person, null);
+        return personRepository.save(person).getPhoto();
+    }
+
     @Override
     public List<PersonDTO> findAllAccounts() {
         return personRepository.findAll()
