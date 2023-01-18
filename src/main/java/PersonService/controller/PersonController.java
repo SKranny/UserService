@@ -20,6 +20,11 @@ import java.util.List;
 public class PersonController {
     private final PersonService personService;
 
+    @GetMapping("/{id}")
+    private PersonDTO getPersonById(@PathVariable Long id) {
+        return personService.getPersonById(id);
+    }
+
     @Operation(summary = "Создание пользователя")
     @PostMapping
     public PersonDTO createPerson(@Valid @RequestBody PersonDTO personDTO) {
