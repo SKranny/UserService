@@ -24,12 +24,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
-
+// hello
         return http
             .csrf().disable()
             .authorizeHttpRequests()
             .antMatchers("api/v1/account/").authenticated()
-            .anyRequest().permitAll()
+            .antMatchers("docs/**").permitAll()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
