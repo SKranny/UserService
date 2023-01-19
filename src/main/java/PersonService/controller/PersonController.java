@@ -20,8 +20,8 @@ import java.util.List;
 public class PersonController {
     private final PersonService personService;
 
-    @GetMapping("/{id}")
-    private PersonDTO getPersonById(@PathVariable Long id) {
+    @GetMapping("/info/{id}")
+    private PersonDTO getPersonById(@PathVariable(name = "id") Long id) {
         return personService.getPersonById(id);
     }
 
