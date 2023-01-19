@@ -1,6 +1,7 @@
 package PersonService.controller;
 
 import PersonService.dto.LoginRequest;
+import PersonService.dto.UpdatePersonRequest;
 import PersonService.service.PersonService;
 import dto.userDto.PersonDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -55,7 +56,7 @@ public class PersonController {
         return personService.blockById(id);
     }
 
-    @Operation(summary = "Разлокировать пользователя по ID")
+    @Operation(summary = "Разблокировать пользователя по ID")
     @DeleteMapping("/block/{id}")
     public PersonDTO unblockAccountById(@PathVariable Long id) {
         return personService.unblockById(id);
@@ -69,8 +70,8 @@ public class PersonController {
 
     @Operation(summary = "Получение аккаунта")
     @PutMapping("/me")
-    public PersonDTO editMyAccount(Principal principal) {
-        return personService.editMyAccount(principal.getName());
+    public PersonDTO editMyAccount(UpdatePersonRequest updatePersonRequest, Principal principal) {
+        return personService.editMyAccount(principal.getName(), updatePersonRequest);
     }
 
     @Operation(summary = "Удаление аккаунта")

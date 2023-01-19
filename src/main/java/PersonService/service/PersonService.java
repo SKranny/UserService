@@ -1,6 +1,7 @@
 package PersonService.service;
 
 import PersonService.dto.LoginRequest;
+import PersonService.dto.UpdatePersonRequest;
 import dto.userDto.PersonDTO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,7 +30,7 @@ public interface PersonService {
 
     PersonDTO getMyAccount(String email);
 
-    PersonDTO editMyAccount(String email);
+    PersonDTO editMyAccount(String email, UpdatePersonRequest updatePersonRequest);
 
     PersonDTO deleteMyAccount(String email);
 

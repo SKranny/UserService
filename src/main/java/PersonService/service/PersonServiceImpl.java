@@ -1,16 +1,21 @@
 package PersonService.service;
 
 import PersonService.dto.LoginRequest;
+import PersonService.dto.UpdatePersonRequest;
 import PersonService.exception.PersonException;
 import PersonService.mappers.PersonMapper;
+import PersonService.model.Address;
 import PersonService.model.Person;
 import PersonService.repository.PersonRepository;
 import aws.AwsClient;
 import dto.userDto.PersonDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -118,15 +123,31 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public PersonDTO editMyAccount(String email) {
-        Optional<Person> tempPerson = personRepository.findPersonByEmail(email);
-        return tempPerson.map(personMapper::toPersonDTOWithoutAddress).orElseThrow(() ->
-                new PersonException("Error! User not found", HttpStatus.BAD_REQUEST));
+    public PersonDTO editMyAccount(String email, UpdatePersonRequest updatePersonRequest) {
+        Person person = personRepository.findPersonByEmail(email)
+                .orElseThrow(() -> new PersonException("Error! Person not found!"));
+        return personMapper.toPersonDTO(personRepository.save(personInfoUpdate(person, updatePersonRequest)));
+    }
+
+    private Person personInfoUpdate(Person person, UpdatePersonRequest updatePersonRequest){
+        person.setFirstName(updatePersonRequest.getFirstName());
+        person.setLastName(updatePersonRequest.getLastName());
+        person.setBirthDay(LocalDate.parse(updatePersonRequest.getBirthDate()));
+        person.setPhone(updatePersonRequest.getPhone());
+        person.setAbout(updatePersonRequest.getAbout());
+        if (!person.getAddress().getCountry().contains(updatePersonRequest.getCountry()) &&
+                !person.getAddress().getCity().contains(updatePersonRequest.getCity())){
+            Address address = new Address();
+            address.setCity(updatePersonRequest.getCity());
+            address.setCountry(updatePersonRequest.getCountry());
+            person.setAddress(address);
+        }
+        return person;
     }
 
     @Override
     public PersonDTO deleteMyAccount(String email) {
-        Optional<Person> tempPerson = personRepository.findPersonByEmail(email);
+        Optional<Person> tempPerson = Optional.empty();
         return tempPerson.map(personMapper::toPersonDTOWithoutAddress).orElseThrow(() ->
                 new PersonException("Error! User not found", HttpStatus.BAD_REQUEST));
     }
