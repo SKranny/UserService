@@ -69,14 +69,14 @@ public class PersonController {
 
     @Operation(summary = "Получение аккаунта")
     @PutMapping("/me")
-    public PersonDTO editMyAccount() {
-        return personService.editMyAccount();
+    public PersonDTO editMyAccount(Principal principal) {
+        return personService.editMyAccount(principal.getName());
     }
 
     @Operation(summary = "Удаление аккаунта")
     @DeleteMapping("/me")
-    public PersonDTO deleteMyAccount() {
-        return personService.deleteMyAccount();
+    public PersonDTO deleteMyAccount(Principal principal) {
+        return personService.deleteMyAccount(principal.getName());
     }
 
     @Operation(summary = "Поиск аккаунта по фильтру")

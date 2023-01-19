@@ -118,17 +118,17 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public PersonDTO editMyAccount() {
-        Optional<Person> tempPerson = Optional.empty();
+    public PersonDTO editMyAccount(String email) {
+        Optional<Person> tempPerson = personRepository.findPersonByEmail(email);
         return tempPerson.map(personMapper::toPersonDTOWithoutAddress).orElseThrow(() ->
-                new PersonException("Warning! Установлена заглушка на editMyAccount!", HttpStatus.BAD_REQUEST));
+                new PersonException("Error! User not found", HttpStatus.BAD_REQUEST));
     }
 
     @Override
-    public PersonDTO deleteMyAccount() {
-        Optional<Person> tempPerson = Optional.empty();
+    public PersonDTO deleteMyAccount(String email) {
+        Optional<Person> tempPerson = personRepository.findPersonByEmail(email);
         return tempPerson.map(personMapper::toPersonDTOWithoutAddress).orElseThrow(() ->
-                new PersonException("Warning! Установлена заглушка на deleteMyAccount!", HttpStatus.BAD_REQUEST));
+                new PersonException("Error! User not found", HttpStatus.BAD_REQUEST));
     }
 
     @Override
