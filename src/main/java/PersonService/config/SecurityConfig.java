@@ -27,10 +27,12 @@ public class SecurityConfig {
 // hello
         return http
             .csrf().disable()
-            .authorizeHttpRequests()
-            .antMatchers("api/v1/account/").authenticated()
-            .antMatchers("docs/**").permitAll()
-            .and()
+            .authorizeHttpRequests(conf -> {
+                conf.antMatchers("/api/v1/account/**").authenticated();
+                conf.antMatchers("/v3/api-docs/**").permitAll();
+                conf.antMatchers("/docs/**").permitAll();
+                conf.anyRequest().authenticated();
+            })
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .headers().frameOptions().disable()
