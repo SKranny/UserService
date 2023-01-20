@@ -115,4 +115,10 @@ public class PersonController {
     public String uploadPhoto(@RequestBody MultipartFile file, Long id) {
         return personService.uploadPhoto(file, id);
     }
+
+    @Operation(summary = "Удалить фото")
+    @DeleteMapping("/delete")
+    public String deletePhoto(Long id){
+        return personService.deletePhoto(id);
+    }
 }
