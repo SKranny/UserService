@@ -127,9 +127,9 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public PersonDTO editMyAccount(String email, UpdatePersonRequest updatePersonRequest) {
-        Person person = personRepository.findPersonByEmail(email)
-                .orElseThrow(() -> new PersonException("Error! Person not found!"));
-        return personMapper.toPersonDTO(personRepository.save(personInfoUpdate(person, updatePersonRequest)));
+        Optional<Person> person = personRepository.findPersonByEmail(email);
+        personRepository.save(personInfoUpdate(person.get(), updatePersonRequest));
+        return person.map(personMapper::toPersonDTO).get();
     }
 
     private Person personInfoUpdate(Person person, UpdatePersonRequest updatePersonRequest){
@@ -162,11 +162,8 @@ public class PersonServiceImpl implements PersonService {
     }
 
     private boolean checkPersonAddress(Person person, UpdatePersonRequest updatePersonRequest){
-        if (person.getAddress().getCountry().equals(updatePersonRequest.getCountry()) &&
-                person.getAddress().getCity().equals(updatePersonRequest.getCity())){
-            return true;
-        }
-        return false;
+        return person.getAddress().getCountry().equals(updatePersonRequest.getCountry()) &&
+                person.getAddress().getCity().equals(updatePersonRequest.getCity());
     }
 
     @Override
