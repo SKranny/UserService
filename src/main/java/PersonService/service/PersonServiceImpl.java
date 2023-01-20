@@ -135,8 +135,8 @@ public class PersonServiceImpl implements PersonService {
         person.setBirthDay(LocalDate.parse(updatePersonRequest.getBirthDate()));
         person.setPhone(updatePersonRequest.getPhone());
         person.setAbout(updatePersonRequest.getAbout());
-        if (!person.getAddress().getCountry().contains(updatePersonRequest.getCountry()) &&
-                !person.getAddress().getCity().contains(updatePersonRequest.getCity())){
+        if (!person.getAddress().getCountry().equals(updatePersonRequest.getCountry()) &&
+                !person.getAddress().getCity().equals(updatePersonRequest.getCity())){
             Address address = new Address();
             address.setCity(updatePersonRequest.getCity());
             address.setCountry(updatePersonRequest.getCountry());
