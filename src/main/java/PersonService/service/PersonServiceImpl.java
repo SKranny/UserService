@@ -6,6 +6,7 @@ import PersonService.exception.PersonException;
 import PersonService.mappers.PersonMapper;
 import PersonService.model.Address;
 import PersonService.model.Person;
+import PersonService.repository.AddressRepository;
 import PersonService.repository.PersonRepository;
 import aws.AwsClient;
 import dto.userDto.PersonDTO;
@@ -26,6 +27,8 @@ import java.util.stream.Collectors;
 public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;
+
+    private final AddressRepository addressRepository;
 
     private final PersonMapper personMapper;
 
@@ -135,14 +138,35 @@ public class PersonServiceImpl implements PersonService {
         person.setBirthDay(LocalDate.parse(updatePersonRequest.getBirthDate()));
         person.setPhone(updatePersonRequest.getPhone());
         person.setAbout(updatePersonRequest.getAbout());
-        if (!person.getAddress().getCountry().equals(updatePersonRequest.getCountry()) &&
-                !person.getAddress().getCity().equals(updatePersonRequest.getCity())){
-            Address address = new Address();
-            address.setCity(updatePersonRequest.getCity());
-            address.setCountry(updatePersonRequest.getCountry());
-            person.setAddress(address);
-        }
+        addressUpdate(person,updatePersonRequest);
         return person;
+    }
+
+    private void addressUpdate(Person person, UpdatePersonRequest updatePersonRequest){
+        if (!checkPersonAddress(person,updatePersonRequest)){
+            person.setAddress(findAddress(updatePersonRequest));
+        }
+    }
+
+    private Address findAddress(UpdatePersonRequest updatePersonRequest){
+        Address address = addressRepository.findAddressByCountry(updatePersonRequest.getCountry())
+                .orElseThrow(() -> new PersonException("Error! Address not found!"));
+        if (address.getCity().equals(updatePersonRequest.getCity())){
+            return address;
+        }else {
+            Address newAddress = new Address();
+            newAddress.setCountry(updatePersonRequest.getCountry());
+            newAddress.setCity(updatePersonRequest.getCity());
+            return newAddress;
+        }
+    }
+
+    private boolean checkPersonAddress(Person person, UpdatePersonRequest updatePersonRequest){
+        if (person.getAddress().getCountry().equals(updatePersonRequest.getCountry()) &&
+                person.getAddress().getCity().equals(updatePersonRequest.getCity())){
+            return true;
+        }
+        return false;
     }
 
     @Override
