@@ -13,6 +13,8 @@ public interface PersonService {
 
     String uploadPhoto(MultipartFile file, Long id);
 
+    String deletePhoto(Long id);
+
     PersonDTO findByEmail(String email);
 
     void updateCustomer(PersonDTO personDTO);
