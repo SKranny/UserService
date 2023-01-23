@@ -4,15 +4,12 @@ import PersonService.dto.LoginRequest;
 import PersonService.dto.UpdatePersonRequest;
 import PersonService.exception.PersonException;
 import PersonService.mappers.PersonMapper;
-import PersonService.model.Address;
 import PersonService.model.Person;
-import PersonService.repository.AddressRepository;
 import PersonService.repository.PersonRepository;
 import aws.AwsClient;
 import dto.userDto.PersonDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,8 +25,6 @@ import java.util.stream.Collectors;
 public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;
-
-    private final AddressRepository addressRepository;
 
     private final PersonMapper personMapper;
 
@@ -70,7 +65,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public List<PersonDTO> findAllAccounts() {
         return personRepository.findAll()
-                .stream().filter(person -> !person.getIsBlocked())
+                .stream()
                 .map(personMapper::toPersonDTOWithoutAddress)
                 .collect(Collectors.toList());
     }
@@ -141,38 +136,8 @@ public class PersonServiceImpl implements PersonService {
         person.setBirthDay(LocalDate.parse(updatePersonRequest.getBirthDate(), DateTimeFormatter.ISO_DATE_TIME));
         person.setPhone(updatePersonRequest.getPhone());
         person.setAbout(updatePersonRequest.getAbout());
-        addressUpdate(person,updatePersonRequest);
+        person.setAddress(updatePersonRequest.getAddress());
         return person;
-    }
-
-    private void addressUpdate(Person person, UpdatePersonRequest updatePersonRequest){
-        if (!checkPersonAddress(person,updatePersonRequest)){
-            person.setAddress(findAddress(updatePersonRequest));
-        }
-    }
-
-    private Address findAddress(UpdatePersonRequest updatePersonRequest){
-        try {
-            Address address = addressRepository.findAddressByCountry(updatePersonRequest.getCountry())
-                    .orElseThrow(() -> new PersonException("Error! Country not found!"));
-            if (address.getCity().equals(updatePersonRequest.getCity())) {
-                return address;
-            }else {
-                Address AddressWithNewCity = new Address();
-                AddressWithNewCity.setCountry(address.getCountry());
-                AddressWithNewCity.setCity(updatePersonRequest.getCity());
-                return AddressWithNewCity;
-            }
-        }catch (PersonException exception){
-            return null;
-        }
-    }
-
-    private boolean checkPersonAddress(Person person, UpdatePersonRequest updatePersonRequest){
-        return person.getAddress().getCountry().equals(updatePersonRequest.getCountry()) &&
-                person.getAddress().getCity().equals(updatePersonRequest.getCity()) &&
-                !updatePersonRequest.getCountry().isEmpty() &&
-                !updatePersonRequest.getCity().isEmpty();
     }
 
     @Override

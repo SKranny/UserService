@@ -28,8 +28,9 @@ public class SecurityConfig {
         return http
             .csrf().disable()
             .authorizeHttpRequests()
-            .antMatchers("api/v1/account/").authenticated()
-            .antMatchers("docs/**").permitAll()
+            .antMatchers("/api/v1/account/**").authenticated()
+            .antMatchers("/docs/**").permitAll()
+            .anyRequest().authenticated()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()

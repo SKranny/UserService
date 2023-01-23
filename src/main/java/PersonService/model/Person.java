@@ -72,9 +72,7 @@ public class Person {
     @Builder.Default
     private LocalDateTime updatedOn = LocalDateTime.now();
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "address", referencedColumnName = "id")
-    private Address address;
+    private String address;
 
     private String password;
 }

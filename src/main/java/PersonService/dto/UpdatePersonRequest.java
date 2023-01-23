@@ -24,9 +24,5 @@ public class UpdatePersonRequest {
 
     @NotBlank
     @JsonProperty(required = true)
-    String country;
-
-    @NotBlank
-    @JsonProperty(required = true)
-    String city;
+    String address;
 }
