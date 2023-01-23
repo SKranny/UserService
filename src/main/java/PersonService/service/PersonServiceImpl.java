@@ -69,7 +69,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public List<PersonDTO> findAllAccounts() {
         return personRepository.findAll()
-                .stream()
+                .stream().filter(person -> !person.getIsBlocked())
                 .map(personMapper::toPersonDTOWithoutAddress)
                 .collect(Collectors.toList());
     }
