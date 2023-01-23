@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -137,7 +138,7 @@ public class PersonServiceImpl implements PersonService {
     private Person personInfoUpdate(Person person, UpdatePersonRequest updatePersonRequest){
         person.setFirstName(updatePersonRequest.getFirstName());
         person.setLastName(updatePersonRequest.getLastName());
-        person.setBirthDay(LocalDate.parse(updatePersonRequest.getBirthDate()));
+        person.setBirthDay(LocalDate.parse(updatePersonRequest.getBirthDate(), DateTimeFormatter.ISO_DATE_TIME));
         person.setPhone(updatePersonRequest.getPhone());
         person.setAbout(updatePersonRequest.getAbout());
         addressUpdate(person,updatePersonRequest);
@@ -151,21 +152,27 @@ public class PersonServiceImpl implements PersonService {
     }
 
     private Address findAddress(UpdatePersonRequest updatePersonRequest){
-        Address address = addressRepository.findAddressByCountry(updatePersonRequest.getCountry())
-                .orElseThrow(() -> new PersonException("Error! Address not found!"));
-        if (address.getCity().equals(updatePersonRequest.getCity())){
-            return address;
-        }else {
-            Address newAddress = new Address();
-            newAddress.setCountry(updatePersonRequest.getCountry());
-            newAddress.setCity(updatePersonRequest.getCity());
-            return newAddress;
+        try {
+            Address address = addressRepository.findAddressByCountry(updatePersonRequest.getCountry())
+                    .orElseThrow(() -> new PersonException("Error! Country not found!"));
+            if (address.getCity().equals(updatePersonRequest.getCity())) {
+                return address;
+            }else {
+                Address AddressWithNewCity = new Address();
+                AddressWithNewCity.setCountry(address.getCountry());
+                AddressWithNewCity.setCity(updatePersonRequest.getCity());
+                return AddressWithNewCity;
+            }
+        }catch (PersonException exception){
+            return null;
         }
     }
 
     private boolean checkPersonAddress(Person person, UpdatePersonRequest updatePersonRequest){
         return person.getAddress().getCountry().equals(updatePersonRequest.getCountry()) &&
-                person.getAddress().getCity().equals(updatePersonRequest.getCity());
+                person.getAddress().getCity().equals(updatePersonRequest.getCity()) &&
+                !updatePersonRequest.getCountry().isEmpty() &&
+                !updatePersonRequest.getCity().isEmpty();
     }
 
     @Override
