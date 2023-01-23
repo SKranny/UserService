@@ -23,8 +23,10 @@ public class UpdatePersonRequest {
     String about;
 
     @NotBlank
+    @JsonProperty(required = true)
     String country;
 
     @NotBlank
+    @JsonProperty(required = true)
     String city;
 }
