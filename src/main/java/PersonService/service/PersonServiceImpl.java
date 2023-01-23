@@ -127,10 +127,11 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public PersonDTO editMyAccount(String email, UpdatePersonRequest updatePersonRequest) {
-        Optional<Person> person = personRepository.findPersonByEmail(email);
-        personRepository.save(personInfoUpdate(person.get(), updatePersonRequest));
-        return person.map(personMapper::toPersonDTO).orElseThrow(() ->
-                new PersonException("Error! User not found", HttpStatus.BAD_REQUEST));
+        return personRepository.findPersonByEmail(email)
+                .map(person -> personInfoUpdate(person,updatePersonRequest))
+                .map(personRepository::save)
+                .map(personMapper::toPersonDTO)
+                .orElseThrow(() -> new PersonException("Error! User not found", HttpStatus.BAD_REQUEST));
     }
 
     private Person personInfoUpdate(Person person, UpdatePersonRequest updatePersonRequest){
