@@ -70,7 +70,7 @@ public class PersonController {
 
     @Operation(summary = "Получение аккаунта")
     @PutMapping("/me")
-    public PersonDTO editMyAccount(UpdatePersonRequest updatePersonRequest, Principal principal) {
+    public PersonDTO editMyAccount(@RequestBody UpdatePersonRequest updatePersonRequest, Principal principal) {
         return personService.editMyAccount(principal.getName(), updatePersonRequest);
     }
 
