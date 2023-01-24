@@ -23,6 +23,5 @@ public class UpdatePersonRequest {
     String about;
 
     @NotBlank
-    @JsonProperty(required = true)
     String address;
 }
