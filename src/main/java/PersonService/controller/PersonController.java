@@ -21,8 +21,8 @@ import java.util.List;
 public class PersonController {
     private final PersonService personService;
 
-    @GetMapping("/{id}")
-    private PersonDTO getPersonById(@PathVariable Long id) {
+    @GetMapping("/info/{id}")
+    private PersonDTO getPersonById(@PathVariable(name = "id") Long id) {
         return personService.getPersonById(id);
     }
 
@@ -115,5 +115,11 @@ public class PersonController {
     @PostMapping("/upload")
     public String uploadPhoto(@RequestBody MultipartFile file, Long id) {
         return personService.uploadPhoto(file, id);
+    }
+
+    @Operation(summary = "Удалить фото")
+    @DeleteMapping("/delete")
+    public String deletePhoto(Long id){
+        return personService.deletePhoto(id);
     }
 }

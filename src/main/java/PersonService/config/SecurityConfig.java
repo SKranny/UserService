@@ -24,22 +24,22 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
         return http
-                .csrf().disable()
-                .authorizeHttpRequests(conf -> {
-                    conf.antMatchers("/api/v1/account/**").permitAll();
-                    conf.antMatchers("/v3/api-docs/**").permitAll();
-                    conf.antMatchers("/docs/**").permitAll();
-                    conf.anyRequest().authenticated();
-                })
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .headers().frameOptions().disable()
-                .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-                .and()
-                .addFilterBefore(jwtPerRequestFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+            .csrf().disable()
+            .authorizeHttpRequests(conf -> {
+                conf.antMatchers("/api/v1/account/**").permitAll();
+                conf.antMatchers("/v3/api-docs/**").permitAll();
+                conf.antMatchers("/docs/**").permitAll();
+                conf.anyRequest().authenticated();
+            })
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .headers().frameOptions().disable()
+            .and()
+            .exceptionHandling()
+            .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+            .and()
+            .addFilterBefore(jwtPerRequestFilter, UsernamePasswordAuthenticationFilter.class)
+            .build();
     }
 
     @Bean

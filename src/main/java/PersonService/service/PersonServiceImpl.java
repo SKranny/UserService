@@ -17,6 +17,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 
@@ -62,6 +64,28 @@ public class PersonServiceImpl implements PersonService {
             throw new PersonException(ex, HttpStatus.BAD_REQUEST);
         }
     }
+
+    @Override
+    public String deletePhoto(Long id){
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new PersonException("Error! Person not found!"));
+        deletePersonPhoto(person);
+        return personRepository.save(person).getPhoto();
+    }
+
+    private void deletePersonPhoto(Person person){
+        String key = null;
+        String regex = "/skillboxjava31/";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(person.getPhoto());
+        while (matcher.find()){
+            Integer start = matcher.end();
+            key = person.getPhoto().substring(start);
+        }
+        person.setPhoto(null);
+        awsClient.deleteImage(key);
+    }
+
     @Override
     public List<PersonDTO> findAllAccounts() {
         return personRepository.findAll()
