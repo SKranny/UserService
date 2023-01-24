@@ -17,30 +17,29 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig {
     private final JwtPerRequestFilter jwtPerRequestFilter;
 
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
-// hello
         return http
-            .csrf().disable()
-            .authorizeHttpRequests()
-            .antMatchers("/api/v1/account/**").authenticated()
-            .antMatchers("/docs/**").permitAll()
-            .anyRequest().authenticated()
-            .and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .headers().frameOptions().disable()
-            .and()
-            .exceptionHandling()
-            .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-            .and()
-            .addFilterBefore(jwtPerRequestFilter, UsernamePasswordAuthenticationFilter.class)
-            .build();
+                .csrf().disable()
+                .authorizeHttpRequests(conf -> {
+                    conf.antMatchers("/api/v1/account/**").permitAll();
+                    conf.antMatchers("/v3/api-docs/**").permitAll();
+                    conf.antMatchers("/docs/**").permitAll();
+                    conf.anyRequest().authenticated();
+                })
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .headers().frameOptions().disable()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+                .and()
+                .addFilterBefore(jwtPerRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 
     @Bean
