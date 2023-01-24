@@ -1,6 +1,5 @@
 package PersonService.mappers;
 
-import PersonService.model.Address;
 import org.mapstruct.Mapper;
 import dto.userDto.AddressDTO;
 
