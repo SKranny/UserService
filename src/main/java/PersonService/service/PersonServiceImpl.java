@@ -141,7 +141,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public PersonDTO getMyAccount(String email) {
-        return personRepository.findPersonByEmail(email).map(personMapper::toPersonDTOWithoutAddress)
+        return personRepository.findPersonByEmail(email).map(personMapper::toPersonDTO)
                 .orElseThrow(() -> new PersonException("Error! Unknown person", HttpStatus.UNAUTHORIZED));
     }
 
