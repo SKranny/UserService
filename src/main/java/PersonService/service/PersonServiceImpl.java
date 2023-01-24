@@ -1,6 +1,7 @@
 package PersonService.service;
 
 import PersonService.dto.LoginRequest;
+import PersonService.dto.UpdatePersonRequest;
 import PersonService.exception.PersonException;
 import PersonService.mappers.PersonMapper;
 import PersonService.model.Person;
@@ -11,6 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -142,17 +146,31 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public PersonDTO editMyAccount() {
-        Optional<Person> tempPerson = Optional.empty();
-        return tempPerson.map(personMapper::toPersonDTOWithoutAddress).orElseThrow(() ->
-                new PersonException("Warning! Установлена заглушка на editMyAccount!", HttpStatus.BAD_REQUEST));
+    public PersonDTO editMyAccount(String email, UpdatePersonRequest updatePersonRequest) {
+        return personRepository.findPersonByEmail(email)
+                .map(person -> personInfoUpdate(person,updatePersonRequest))
+                .map(personRepository::save)
+                .map(personMapper::toPersonDTO)
+                .orElseThrow(() -> new PersonException("Error! User not found", HttpStatus.BAD_REQUEST));
+    }
+
+    private Person personInfoUpdate(Person person, UpdatePersonRequest updatePersonRequest){
+        person.setFirstName(updatePersonRequest.getFirstName());
+        person.setLastName(updatePersonRequest.getLastName());
+        person.setBirthDay(LocalDate.parse(updatePersonRequest.getBirthDate(), DateTimeFormatter.ISO_DATE_TIME));
+        person.setPhone(updatePersonRequest.getPhone());
+        person.setAbout(updatePersonRequest.getAbout());
+        person.setAddress(updatePersonRequest.getAddress());
+        return person;
     }
 
     @Override
-    public PersonDTO deleteMyAccount() {
-        Optional<Person> tempPerson = Optional.empty();
+    public PersonDTO deleteMyAccount(String email) {
+        Optional<Person> tempPerson = personRepository.findPersonByEmail(email);
+        tempPerson.get().setIsDeleted(true);
+        personRepository.save(tempPerson.get());
         return tempPerson.map(personMapper::toPersonDTOWithoutAddress).orElseThrow(() ->
-                new PersonException("Warning! Установлена заглушка на deleteMyAccount!", HttpStatus.BAD_REQUEST));
+                new PersonException("Error! User not found", HttpStatus.BAD_REQUEST));
     }
 
     @Override

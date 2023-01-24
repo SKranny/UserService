@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 import java.time.LocalDateTime;
 
 @Mapper(componentModel = "spring",
-        uses = {RoleSetMapper.class, AddressMapper.class},
+        uses = {RoleSetMapper.class},
         imports = LocalDateTime.class)
 public interface PersonMapper {
     PersonDTO toPersonDTO(Person person);

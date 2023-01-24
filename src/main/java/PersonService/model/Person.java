@@ -24,6 +24,7 @@ public class Person {
     @SequenceGenerator(name = "person_id_gen", sequenceName = "person_id_seq", allocationSize = 1)
     private Long id;
 
+    @NotNull
     private String email;
 
     private String phone;
@@ -72,9 +73,7 @@ public class Person {
     @Builder.Default
     private LocalDateTime updatedOn = LocalDateTime.now();
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "address", referencedColumnName = "id")
-    private Address address;
+    private String address;
 
     private String password;
 }
