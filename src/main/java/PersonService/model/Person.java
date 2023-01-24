@@ -24,6 +24,7 @@ public class Person {
     @SequenceGenerator(name = "person_id_gen", sequenceName = "person_id_seq", allocationSize = 1)
     private Long id;
 
+    @NotNull
     private String email;
 
     private String phone;

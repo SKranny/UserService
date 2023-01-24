@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS address (
 
 CREATE TABLE IF NOT EXISTS person (
     id                  BIGSERIAL PRIMARY KEY,
-    email               VARCHAR(255) UNIQUE,
+    email               VARCHAR(255) UNIQUE NOT NULL,
     phone               VARCHAR(255),
     photo               VARCHAR(255),
     about               VARCHAR(2048),
