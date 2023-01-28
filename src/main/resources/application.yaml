@@ -14,6 +14,10 @@ spring:
     url: ${PERSON_SERVICE_DATABASE_URL:jdbc:postgresql://localhost:5432/person_service}
     username: postgres
     password: ${PERSON_SERVICE_DATABASE_PASSWORD}
+  kafka:
+    consumer:
+      group-id: person-service-id
+    bootstrap-servers: ${KAFKA_HOST:localhost:9092}
 
   jpa:
     generate-ddl: false
