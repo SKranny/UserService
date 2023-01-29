@@ -9,9 +9,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import security.TokenAuthentication;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -64,20 +64,20 @@ public class PersonController {
 
     @Operation(summary = "Получение аккаунта")
     @GetMapping("/me")
-    public PersonDTO getMyAccount(Principal principal) {
-        return personService.getMyAccount(principal.getName());
+    public PersonDTO getMyAccount(TokenAuthentication authentication) {
+        return personService.getMyAccount(authentication.getTokenData().getEmail());
     }
 
     @Operation(summary = "Получение аккаунта")
     @PutMapping("/me")
-    public PersonDTO editMyAccount(@Valid @RequestBody UpdatePersonRequest updatePersonRequest, Principal principal) {
-        return personService.editMyAccount(principal.getName(), updatePersonRequest);
+    public PersonDTO editMyAccount(@Valid @RequestBody UpdatePersonRequest updatePersonRequest, TokenAuthentication authentication) {
+        return personService.editMyAccount(authentication.getTokenData().getEmail(), updatePersonRequest);
     }
 
     @Operation(summary = "Удаление аккаунта")
     @DeleteMapping("/me")
-    public PersonDTO deleteMyAccount(Principal principal) {
-        return personService.deleteMyAccount(principal.getName());
+    public PersonDTO deleteMyAccount(TokenAuthentication authentication) {
+        return personService.deleteMyAccount(authentication.getTokenData().getEmail());
     }
 
     @Operation(summary = "Поиск аккаунта по фильтру")
@@ -103,7 +103,6 @@ public class PersonController {
     public String getAccountByIds() {
         return "search all accounts emulation";
     }
-
 
     @Operation(summary = "Обновить данные пользователя")
     @PutMapping
