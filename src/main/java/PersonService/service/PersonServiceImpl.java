@@ -8,6 +8,8 @@ import PersonService.model.Person;
 import PersonService.repository.PersonRepository;
 import aws.AwsClient;
 import dto.userDto.PersonDTO;
+import dto.userDto.ShortPersonDTO;
+import kafka.annotation.SubmitToKafka;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -33,8 +35,10 @@ public class PersonServiceImpl implements PersonService {
     private final AwsClient awsClient;
 
     @Override
+    @SubmitToKafka(topic = "NewCustomer")
     public PersonDTO createPerson(PersonDTO personDTO) {
-        return personMapper.toPersonDTO(personRepository.save(personMapper.toPerson(personDTO)));
+        Person person = personRepository.save(personMapper.toPerson(personDTO));
+        return personMapper.toPersonDTO(person);
     }
 
     @Override

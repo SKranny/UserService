@@ -2,6 +2,7 @@ package PersonService;
 
 import aws.annotation.EnableAwsClient;
 import feignClient.EnableFeignClient;
+import kafka.annotation.EnableKafkaClient;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
 import org.springframework.cache.annotation.EnableCaching;
@@ -11,6 +12,7 @@ import security.EnableMicroserviceSecurity;
 
 @EnableCaching
 @EnableAwsClient
+@EnableKafkaClient
 @EnableFeignClient
 @EnableEurekaClient
 @SpringBootApplication
