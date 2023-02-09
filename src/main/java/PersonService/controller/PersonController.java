@@ -7,11 +7,15 @@ import dto.userDto.PersonDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import security.TokenAuthentication;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
@@ -86,10 +90,15 @@ public class PersonController {
         return personService.searchByFilter();
     }
 
-    @Operation(summary = "Поиск аккаунта")
+    @Operation(summary = "Поиск по слову в имени, почте, тэгах, имени поста, если дата, то по дате публикации")
     @GetMapping("/search")
-    public PersonDTO searchAccount() {
-        return personService.search();
+    public Page<PersonDTO> searchAccounts(
+            @Param("word") String word,
+        @Valid @Min(0) @RequestParam(value = "page", defaultValue = "0", required = false) Integer page,
+        @RequestParam(value = "offset", defaultValue = "20", required = false) Integer limit
+    ){
+        return personService.search(word, PageRequest.of(page, limit));
+
     }
 
     @Operation(summary = "Получение всех ID аккаунтов")

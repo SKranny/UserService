@@ -8,9 +8,10 @@ import PersonService.model.Person;
 import PersonService.repository.PersonRepository;
 import aws.AwsClient;
 import dto.userDto.PersonDTO;
-import dto.userDto.ShortPersonDTO;
 import kafka.annotation.SubmitToKafka;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -185,10 +186,19 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public PersonDTO search(){
-        Optional<Person> tempPerson = Optional.empty();
-        return tempPerson.map(personMapper::toPersonDTOWithoutAddress).orElseThrow(() ->
-                new PersonException("Warning! Установлена заглушка на search!", HttpStatus.BAD_REQUEST));
+    public Page<PersonDTO> search(String word, Pageable pageable) {
+        Page<PersonDTO> persons =
+                personRepository.findAllByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(word, word,  pageable)
+                .map(personMapper::toPersonDTO);
+        return persons;
     }
+
+//    @Override
+//    public <List> PersonDTO search(){
+//        Optional<Person> tempPerson = Optional.empty();
+////        return tempPerson.map(personMapper::toPersonDTOWithoutAddress).orElseThrow(() ->
+////                new PersonException("Warning! Установлена заглушка на search!", HttpStatus.BAD_REQUEST));
+//        return null;
+//    }
 
 }

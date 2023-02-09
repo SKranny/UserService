@@ -3,6 +3,8 @@ package PersonService.service;
 import PersonService.dto.LoginRequest;
 import PersonService.dto.UpdatePersonRequest;
 import dto.userDto.PersonDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -38,7 +40,7 @@ public interface PersonService {
 
     PersonDTO searchByFilter();
 
-    PersonDTO search();
+    Page<PersonDTO> search(String word, Pageable pageable);
 
     List<Long> getAllIds();
 
