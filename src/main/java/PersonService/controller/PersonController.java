@@ -7,11 +7,15 @@ import dto.userDto.PersonDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import security.TokenAuthentication;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
@@ -19,6 +23,7 @@ import java.util.List;
 @RequestMapping("/api/v1/account")
 @Tag(name="Person Service", description="Работа с аккаунтом")
 public class PersonController {
+    final long MAX_AGE = 200;
     private final PersonService personService;
 
     @GetMapping("/info/{id}")
@@ -86,10 +91,18 @@ public class PersonController {
         return personService.searchByFilter();
     }
 
-    @Operation(summary = "Поиск аккаунта")
+    @Operation(summary = "Поиск по адресу, имени, диапазону возрастов ")
     @GetMapping("/search")
-    public PersonDTO searchAccount() {
-        return personService.search();
+    public Page<PersonDTO> searchAccounts(
+            @RequestParam(value = "address", defaultValue = "", required = false) String address,
+            @RequestParam(value = "name", defaultValue = "", required = false) String name,
+            @Valid @Min(0) @Max(MAX_AGE) @RequestParam(value = "age_min", defaultValue = "0", required = false) Integer ageMin,
+            @Valid @Min(0) @Max(MAX_AGE) @RequestParam(value = "age_max", defaultValue = "200", required = false) Integer ageMax,
+            @Valid @Min(0) @RequestParam(value = "page", defaultValue = "0", required = false) Integer page,
+            @RequestParam(value = "offset", defaultValue = "20", required = false) Integer limit
+    ) {
+        return personService.search(address, name, ageMin, ageMax, PageRequest.of(page, limit));
+
     }
 
     @Operation(summary = "Получение всех ID аккаунтов")
