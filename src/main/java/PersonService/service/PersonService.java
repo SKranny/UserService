@@ -40,7 +40,8 @@ public interface PersonService {
 
     PersonDTO searchByFilter();
 
-    Page<PersonDTO> search(String word, Pageable pageable);
+    Page<PersonDTO> search(String address, String name, Integer ageFrom, Integer ageTo,
+                           Pageable pageable);
 
     List<Long> getAllIds();
 
