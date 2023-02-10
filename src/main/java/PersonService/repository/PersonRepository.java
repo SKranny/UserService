@@ -15,11 +15,11 @@ public interface PersonRepository extends JpaRepository<Person, Long>, JpaSpecif
 
     Optional<Person> findPersonById(Long id);
 
-    default Page<Person> findAllBySearchFilter(String address, String name, Integer fromAge, Integer toAge,
+    default Page<Person> findAllBySearchFilter(String address, String firstName, String lastName, Integer fromAge, Integer toAge,
                                                Pageable pageable) {
 
-        Specification<Person> specification = Specification.where(PersonSpecification.checkFirstName(name))
-                .or(PersonSpecification.checkLastName(name))
+        Specification<Person> specification = Specification.where(PersonSpecification.checkFirstName(firstName))
+                .and(PersonSpecification.checkLastName(lastName))
                 .and(PersonSpecification.checkAddress(address))
                 .and(PersonSpecification.ageBetween(fromAge, toAge));
         return this.findAll(specification, pageable);

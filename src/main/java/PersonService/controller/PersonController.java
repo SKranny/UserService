@@ -95,13 +95,14 @@ public class PersonController {
     @GetMapping("/search")
     public Page<PersonDTO> searchAccounts(
             @RequestParam(value = "address", defaultValue = "", required = false) String address,
-            @RequestParam(value = "name", defaultValue = "", required = false) String name,
-            @Valid @Min(0) @Max(MAX_AGE) @RequestParam(value = "age_min", defaultValue = "0", required = false) Integer ageMin,
-            @Valid @Min(0) @Max(MAX_AGE) @RequestParam(value = "age_max", defaultValue = "200", required = false) Integer ageMax,
+            @RequestParam(value = "firstName", defaultValue = "", required = false) String firstName,
+            @RequestParam(value = "lastName", defaultValue = "", required = false) String lastName,
+            @Valid @Min(0) @Max(MAX_AGE) @RequestParam(value = "ageFrom", defaultValue = "0", required = false) Integer ageMin,
+            @Valid @Min(0) @Max(MAX_AGE) @RequestParam(value = "ageTo", defaultValue = "200", required = false) Integer ageMax,
             @Valid @Min(0) @RequestParam(value = "page", defaultValue = "0", required = false) Integer page,
             @RequestParam(value = "offset", defaultValue = "20", required = false) Integer limit
     ) {
-        return personService.search(address, name, ageMin, ageMax, PageRequest.of(page, limit));
+        return personService.search(address, firstName, lastName,  ageMin, ageMax, PageRequest.of(page, limit));
 
     }
 
