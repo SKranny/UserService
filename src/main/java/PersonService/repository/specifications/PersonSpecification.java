@@ -9,26 +9,39 @@ import java.util.Locale;
 public class PersonSpecification {
 
     public static Specification<Person> checkFirstName(String name) {
+        if (name == null) {
+            return null;
+        }
         String regExp = "%" + name.toLowerCase(Locale.ROOT) + "%";
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(
                 criteriaBuilder.lower(root.get("firstName")), regExp);
     }
 
     public static Specification<Person> checkLastName(String name) {
-        String regExp = "%" + name + "%";
+        if (name == null) {
+            return null;
+        }
+        String regExp = "%" + name.toLowerCase(Locale.ROOT) + "%";
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(
                 criteriaBuilder.lower(root.get("lastName")), regExp);
     }
 
     public static Specification<Person> checkAddress(String address) {
-        String regExp = "%" + address + "%";
+        if (address == null) {
+            return null;
+        }
+        String regExp = "%" + address.toLowerCase(Locale.ROOT) + "%";
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(
                 criteriaBuilder.lower(root.get("address")), regExp);
     }
 
     public static Specification<Person> ageBetween(Integer minAge, Integer maxAge) {
-        LocalDate DateFrom = LocalDate.now().minusYears(minAge);
-        LocalDate DateTo = LocalDate.now().minusYears(maxAge);
-        return ((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.between(root.get("birthDay"), DateTo, DateFrom));
+        if (minAge == null && maxAge == null) {
+            return null;
+        }
+        LocalDate DateFrom = (maxAge == null) ? LocalDate.MIN : LocalDate.now().minusYears(maxAge);
+        LocalDate DateTo = (minAge == null) ? LocalDate.now() : LocalDate.now().minusYears(minAge);
+        return ((root, criteriaQuery, criteriaBuilder) ->
+                criteriaBuilder.between(root.get("birthDay"), DateFrom, DateTo));
     }
 }
