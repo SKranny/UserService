@@ -94,11 +94,11 @@ public class PersonController {
     @Operation(summary = "Поиск по адресу, имени, диапазону возрастов ")
     @GetMapping("/search")
     public Page<PersonDTO> searchAccounts(
-            @RequestParam(value = "address", defaultValue = "", required = false) String address,
-            @RequestParam(value = "firstName", defaultValue = "", required = false) String firstName,
-            @RequestParam(value = "lastName", defaultValue = "", required = false) String lastName,
-            @Valid @Min(0) @Max(MAX_AGE) @RequestParam(value = "ageFrom", defaultValue = "0", required = false) Integer ageMin,
-            @Valid @Min(0) @Max(MAX_AGE) @RequestParam(value = "ageTo", defaultValue = "200", required = false) Integer ageMax,
+            @RequestParam(value = "firstName", required = false) String firstName,
+            @RequestParam(value = "lastName", required = false) String lastName,
+            @RequestParam(value = "address", required = false) String address,
+            @Valid @Min(0) @Max(MAX_AGE) @RequestParam(value = "ageFrom", required = false) Integer ageMin,
+            @Valid @Min(0) @Max(MAX_AGE) @RequestParam(value = "ageTo", required = false) Integer ageMax,
             @Valid @Min(0) @RequestParam(value = "page", defaultValue = "0", required = false) Integer page,
             @RequestParam(value = "offset", defaultValue = "20", required = false) Integer limit
     ) {

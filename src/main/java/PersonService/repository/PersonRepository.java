@@ -23,5 +23,6 @@ public interface PersonRepository extends JpaRepository<Person, Long>, JpaSpecif
                 .and(PersonSpecification.checkAddress(address))
                 .and(PersonSpecification.ageBetween(fromAge, toAge));
         return this.findAll(specification, pageable);
+
     }
 }

@@ -187,10 +187,10 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public  Page<PersonDTO> search(String address, String firstName, String lastName, Integer ageFrom, Integer ageTo,
-                                   Pageable pageable){
-        List<PersonDTO> persons = personRepository.findAllBySearchFilter(address, firstName, lastName, ageFrom, ageTo,
-                        pageable).stream()
+    public Page<PersonDTO> search(String address, String firstName, String lastName,
+                                  Integer ageFrom, Integer ageTo, Pageable pageable) {
+        List<PersonDTO> persons = personRepository.findAllBySearchFilter(address, firstName, lastName,
+                        ageFrom, ageTo, pageable).stream()
                 .map(personMapper::toPersonDTO)
                 .collect(Collectors.toList());
         return new PageImpl<>(persons);
