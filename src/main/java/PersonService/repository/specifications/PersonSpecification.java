@@ -39,7 +39,7 @@ public class PersonSpecification {
         if (minAge == null && maxAge == null) {
             return null;
         }
-        LocalDate DateFrom = (maxAge == null) ? LocalDate.MIN : LocalDate.now().minusYears(maxAge);
+        LocalDate DateFrom = (maxAge == null) ? LocalDate.of(1, 1, 1) : LocalDate.now().minusYears(maxAge);
         LocalDate DateTo = (minAge == null) ? LocalDate.now() : LocalDate.now().minusYears(minAge);
         return ((root, criteriaQuery, criteriaBuilder) ->
                 criteriaBuilder.between(root.get("birthDay"), DateFrom, DateTo));
