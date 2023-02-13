@@ -94,7 +94,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public List<PersonDTO> findAllAccounts() {
-        return personRepository.findAll()
+        return personRepository.findAllByIsDeletedIsFalse()
                 .stream()
                 .map(personMapper::toPersonDTOWithoutAddress)
                 .collect(Collectors.toList());
@@ -134,7 +134,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public List <Long> getAllIds(){
-        return personRepository.findAll().stream().
+        return personRepository.findAllByIsDeletedIsFalse().stream().
                 map(Person::getId).sorted().collect(Collectors.toList());
     }
 
