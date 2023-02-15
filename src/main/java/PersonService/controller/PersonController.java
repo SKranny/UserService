@@ -73,7 +73,7 @@ public class PersonController {
         return personService.getMyAccount(authentication.getTokenData().getEmail());
     }
 
-    @Operation(summary = "Получение аккаунта")
+    @Operation(summary = "Корректировка аккаунта")
     @PutMapping("/me")
     public PersonDTO editMyAccount(@Valid @RequestBody UpdatePersonRequest updatePersonRequest, TokenAuthentication authentication) {
         return personService.editMyAccount(authentication.getTokenData().getEmail(), updatePersonRequest);
