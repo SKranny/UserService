@@ -31,6 +31,12 @@ public class PersonController {
         return personService.getPersonById(id);
     }
 
+    @Operation(summary = "Получить всех пользователей")
+    @GetMapping("find")
+    public List<PersonDTO> findPersonsByFriend() {
+        return personService.findPersonsByFriend();
+    }
+
     @Operation(summary = "Создание пользователя")
     @PostMapping
     public PersonDTO createPerson(@Valid @RequestBody PersonDTO personDTO) {

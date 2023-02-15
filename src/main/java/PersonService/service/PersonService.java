@@ -12,6 +12,8 @@ import java.util.List;
 
 public interface PersonService {
 
+    List<PersonDTO> findPersonsByFriend();
+
     PersonDTO createPerson(PersonDTO personDTO);
 
     String uploadPhoto(MultipartFile file, Long id);

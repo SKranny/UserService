@@ -3,6 +3,7 @@ package PersonService.service;
 import PersonService.dto.LoginRequest;
 import PersonService.dto.UpdatePersonRequest;
 import PersonService.exception.PersonException;
+import PersonService.feighnClient.FriendService;
 import PersonService.mappers.PersonMapper;
 import PersonService.model.Person;
 import PersonService.repository.PersonRepository;
@@ -32,9 +33,18 @@ public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;
 
+    private final FriendService friendService;
+
     private final PersonMapper personMapper;
 
     private final AwsClient awsClient;
+
+    @Override
+    public List<PersonDTO> findPersonsByFriend() {
+
+        return personRepository.findAllByIdIn(friendService.getFriendId()).stream().map(personMapper::toPersonDTO)
+                .collect(Collectors.toList());
+    }
 
     @Override
     @SubmitToKafka(topic = "NewCustomer")
