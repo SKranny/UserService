@@ -102,26 +102,20 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public PersonDTO recoveryPerson(LoginRequest loginRequest) {
-        Optional<Person> person = personRepository.findPersonByEmail(loginRequest.getEmail());
-        if (person.isEmpty() || !person.get().getPassword().equals(loginRequest.getPassword())) {
-            Optional<Person> tempPerson = Optional.empty();
-            return tempPerson.map(personMapper::toPersonDTOWithoutAddress).orElseThrow(() ->
-                    new PersonException("Error! User or email is incorrect!", HttpStatus.BAD_REQUEST));
-        }
-        person.get().setIsDeleted(false);
-        return personMapper.toPersonDTOWithoutAddress(personRepository.save(person.get()));
+        Person person = personRepository.findPersonByEmail(loginRequest.getEmail())
+                .filter(p -> p.getPassword().equals(loginRequest.getPassword()))
+                .orElseThrow(() -> new PersonException("Error! User or email is incorrect!", HttpStatus.BAD_REQUEST));
+        person.setIsDeleted(false);
+        return personMapper.toPersonDTOWithoutAddress(personRepository.save(person));
     }
 
     private PersonDTO changeBlockState(Long id, boolean blockState) {
-        Optional <Person> person = personRepository.findPersonById(id);
-        if (person.isEmpty()){
-            Optional<Person> tempPerson = Optional.empty();
-            return tempPerson.map(personMapper::toPersonDTOWithoutAddress).orElseThrow(() ->
-                    new PersonException("Error! Id is incorrect!", HttpStatus.BAD_REQUEST));
-        }
-        person.get().setIsBlocked(blockState);
-        return personMapper.toPersonDTOWithoutAddress(personRepository.save(person.get()));
+        Person person = personRepository.findPersonById(id)
+                .orElseThrow(() -> new PersonException("Error! Id is incorrect!", HttpStatus.BAD_REQUEST));
+        person.setIsBlocked(blockState);
+        return personMapper.toPersonDTOWithoutAddress(personRepository.save(person));
     }
+
     @Override
     public PersonDTO blockById(Long id) {
         return  changeBlockState(id, true);
