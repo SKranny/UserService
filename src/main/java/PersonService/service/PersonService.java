@@ -14,6 +14,9 @@ public interface PersonService {
 
     List<PersonDTO> findPersonsByFriend();
 
+    List<PersonDTO> findAllActivePersons();
+    List<PersonDTO> findAllBlockedPersons();
+
     PersonDTO createPerson(PersonDTO personDTO);
 
     String uploadPhoto(MultipartFile file, Long id);

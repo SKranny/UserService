@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/account")
-@Tag(name="Person Service", description="Работа с аккаунтом")
+@Tag(name = "Person Service", description = "Работа с аккаунтом")
 public class PersonController {
     final long MAX_AGE = 200;
     private final PersonService personService;
@@ -32,21 +32,33 @@ public class PersonController {
     }
 
     @Operation(summary = "Получить всех пользователей")
-    @GetMapping("find")
+    @GetMapping("/find")
     public List<PersonDTO> findPersonsByFriend() {
         return personService.findPersonsByFriend();
+    }
+
+    @Operation(summary = "Получить всех активных пользователей")
+    @GetMapping("/active")
+    public List<PersonDTO> getAllActivePersons() {
+        return personService.findAllActivePersons();
+    }
+
+    @Operation(summary = "Получить всех заблокированных пользователей")
+    @GetMapping("/blocked")
+    public List<PersonDTO> getAllBlockedPersons() {
+        return personService.findAllBlockedPersons();
     }
 
     @Operation(summary = "Создание пользователя")
     @PostMapping
     public PersonDTO createPerson(@Valid @RequestBody PersonDTO personDTO) {
-         return personService.createPerson(personDTO);
+        return personService.createPerson(personDTO);
     }
 
     @Operation(summary = "Получение пользователя по email")
     @GetMapping("/{email}")
     public PersonDTO getPersonDTOByEmail(@PathVariable(name = "email") String email) {
-       return personService.findByEmail(email);
+        return personService.findByEmail(email);
     }
 
     @Operation(summary = "Получить всех пользователей")
@@ -108,7 +120,7 @@ public class PersonController {
             @Valid @Min(0) @RequestParam(value = "page", defaultValue = "0", required = false) Integer page,
             @RequestParam(value = "offset", defaultValue = "20", required = false) Integer limit
     ) {
-        return personService.search(address, firstName, lastName,  ageMin, ageMax, PageRequest.of(page, limit));
+        return personService.search(address, firstName, lastName, ageMin, ageMax, PageRequest.of(page, limit));
 
     }
 
@@ -138,7 +150,7 @@ public class PersonController {
 
     @Operation(summary = "Удалить фото")
     @DeleteMapping("/delete")
-    public String deletePhoto(Long id){
+    public String deletePhoto(Long id) {
         return personService.deletePhoto(id);
     }
 }

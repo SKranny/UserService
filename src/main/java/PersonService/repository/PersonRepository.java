@@ -15,6 +15,10 @@ import java.util.Optional;
 public interface PersonRepository extends JpaRepository<Person, Long>, JpaSpecificationExecutor {
 
     List<Person> findAllByIdIn(Collection<Long> friendsId);
+    List<Person> findAllByIsBlockedIsFalse();
+
+    List<Person> findAllByIsBlockedIsTrue();
+
 
     List<Person> findAllByIsDeletedIsFalse();
     Optional<Person> findPersonByEmail(String email);
