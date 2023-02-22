@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Set;
 
 
 public interface PersonService {
@@ -40,11 +41,11 @@ public interface PersonService {
 
     PersonDTO deleteMyAccount(String email);
 
-    PersonDTO searchByFilter();
-
     Page<PersonDTO> search(String address, String firstName, String lastName, Integer ageFrom, Integer ageTo,
                            Pageable pageable);
 
     List<Long> getAllIds();
+
+    Set<PersonDTO> searchByName(String userName);
 
 }
