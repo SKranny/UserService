@@ -2,6 +2,7 @@ package PersonService.service;
 
 import PersonService.dto.LoginRequest;
 import PersonService.dto.UpdatePersonRequest;
+import dto.notification.PersonOnline;
 import dto.userDto.PersonDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -50,4 +51,6 @@ public interface PersonService {
     Set<PersonDTO> getAccountByIds(List<Long> usersId);
 
     Set<PersonDTO> searchAllBySubstringInFirstOrLastName(String userName);
+
+    void updateOnlineStatus(PersonOnline personOnline);
 }

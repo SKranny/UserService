@@ -8,6 +8,7 @@ import PersonService.mappers.PersonMapper;
 import PersonService.model.Person;
 import PersonService.repository.PersonRepository;
 import aws.AwsClient;
+import dto.notification.PersonOnline;
 import dto.userDto.PersonDTO;
 import kafka.annotation.SubmitToKafka;
 import lombok.RequiredArgsConstructor;
@@ -207,6 +208,14 @@ public class PersonServiceImpl implements PersonService {
         return personRepository.findAllBySearchSubSrtingInNames(subName).stream()
                 .map(personMapper::toPersonDTO)
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public void updateOnlineStatus(PersonOnline personOnline) {
+        Person person = personRepository.findById(personOnline.getPersonId())
+                .orElseThrow(() -> new PersonException("Error! Person not found!"));
+        person.setIsOnline(personOnline.getIsOnline());
+        personRepository.save(person);
     }
 
 }
