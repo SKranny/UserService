@@ -106,12 +106,12 @@ public class PersonController {
         return personService.search(address, firstName, lastName,  ageMin, ageMax, PageRequest.of(page, limit));
     }
 
-    @Operation(summary = "Поиск по имени и фамилии")
+    @Operation(summary = "Поиск по подстроке в имени или фамилии")
     @GetMapping("/searchByName")
-    public Set<PersonDTO> searchAccountsByName(
-            @RequestParam(value = "userName", required = false) String userName
+    public Set<PersonDTO> searchAllBySubstringInFirstOrLastName(
+            @RequestParam(value = "subName", required = false) String subName
     ) {
-        return personService.searchByName(userName);
+        return personService.searchAllBySubstringInFirstOrLastName(subName);
     }
 
     @Operation(summary = "Получение всех ID аккаунтов")

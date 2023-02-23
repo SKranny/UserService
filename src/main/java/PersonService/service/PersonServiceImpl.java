@@ -195,8 +195,8 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Set<PersonDTO> searchByName(String userName) {
-        return personRepository.findAllBySearchInNames(userName).stream()
+    public Set<PersonDTO> searchAllBySubstringInFirstOrLastName(String subName) {
+        return personRepository.findAllBySearchSubSrtingInNames(subName).stream()
                 .map(personMapper::toPersonDTO)
                 .collect(Collectors.toSet());
     }

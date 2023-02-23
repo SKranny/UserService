@@ -46,6 +46,6 @@ public interface PersonService {
 
     List<Long> getAllIds();
 
-    Set<PersonDTO> searchByName(String userName);
+    Set<PersonDTO> searchAllBySubstringInFirstOrLastName(String userName);
 
 }

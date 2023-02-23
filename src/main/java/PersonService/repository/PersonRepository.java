@@ -31,7 +31,7 @@ public interface PersonRepository extends JpaRepository<Person, Long>, JpaSpecif
         return this.findAll(specification, pageable);
     }
 
-    default List<Person> findAllBySearchInNames(String userName) {
+    default List<Person> findAllBySearchSubSrtingInNames(String userName) {
         Specification<Person> specification = Specification.where(PersonSpecification.checkFirstName(userName))
                 .or(PersonSpecification.checkLastName(userName));
         return this.findAll(specification);
