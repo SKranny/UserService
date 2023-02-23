@@ -193,13 +193,6 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public PersonDTO searchByFilter(){
-        Optional<Person> tempPerson = Optional.empty();
-        return tempPerson.map(personMapper::toPersonDTOWithoutAddress).orElseThrow(() ->
-                new PersonException("Warning! Установлена заглушка на  searchByFilter!", HttpStatus.BAD_REQUEST));
-    }
-
-    @Override
     public Page<PersonDTO> search(String address, String firstName, String lastName,
                                   Integer ageFrom, Integer ageTo, Pageable pageable) {
         List<PersonDTO> persons = personRepository.findAllBySearchFilter(address, firstName, lastName,
@@ -207,6 +200,13 @@ public class PersonServiceImpl implements PersonService {
                 .map(personMapper::toPersonDTO)
                 .collect(Collectors.toList());
         return new PageImpl<>(persons);
+    }
+
+    @Override
+    public Set<PersonDTO> searchAllBySubstringInFirstOrLastName(String subName) {
+        return personRepository.findAllBySearchSubSrtingInNames(subName).stream()
+                .map(personMapper::toPersonDTO)
+                .collect(Collectors.toSet());
     }
 
 }

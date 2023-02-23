@@ -42,12 +42,12 @@ public interface PersonService {
 
     PersonDTO deleteMyAccount(String email);
 
-    PersonDTO searchByFilter();
-
     Page<PersonDTO> search(String address, String firstName, String lastName, Integer ageFrom, Integer ageTo,
                            Pageable pageable);
 
     List<Long> getAllIds();
 
     Set<PersonDTO> getAccountByIds(List<Long> usersId);
+
+    Set<PersonDTO> searchAllBySubstringInFirstOrLastName(String userName);
 }
