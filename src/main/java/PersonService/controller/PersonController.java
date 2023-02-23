@@ -17,6 +17,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -120,8 +121,8 @@ public class PersonController {
 
     @Operation(summary = "Получение аккаунтов по их ID")
     @GetMapping("/accountIds")
-    public String getAccountByIds() {
-        return "search all accounts emulation";
+    public Set<PersonDTO> getAccountByIds(@RequestParam List<Long> usersId) {
+        return personService.getAccountByIds(usersId);
     }
 
     @Operation(summary = "Обновить данные пользователя")

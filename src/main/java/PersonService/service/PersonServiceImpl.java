@@ -17,11 +17,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import security.dto.TokenData;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -140,6 +142,13 @@ public class PersonServiceImpl implements PersonService {
     public List <Long> getAllIds(){
         return personRepository.findAllByIsDeletedIsFalse().stream().
                 map(Person::getId).sorted().collect(Collectors.toList());
+    }
+
+    @Override
+    public Set<PersonDTO> getAccountByIds(List<Long> usersId) {
+        return personRepository.findAllByIdIn(usersId).stream()
+                .map(personMapper::toPersonDTOWithoutAddress)
+                .collect(Collectors.toSet());
     }
 
     @Override

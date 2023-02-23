@@ -6,8 +6,10 @@ import dto.userDto.PersonDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
+import security.dto.TokenData;
 
 import java.util.List;
+import java.util.Set;
 
 
 public interface PersonService {
@@ -47,4 +49,5 @@ public interface PersonService {
 
     List<Long> getAllIds();
 
+    Set<PersonDTO> getAccountByIds(List<Long> usersId);
 }
