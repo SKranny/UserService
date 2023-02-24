@@ -50,6 +50,21 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    public List<PersonDTO> findAllActivePersons(){
+        return personRepository.findAllByIsBlockedIsFalse().stream()
+                .map(personMapper::toPersonDTOWithoutAddress)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+   public List<PersonDTO> findAllBlockedPersons(){
+        return personRepository.findAllByIsBlockedIsTrue().stream()
+                .map(personMapper::toPersonDTOWithoutAddress)
+                .collect(Collectors.toList());
+    };
+
+
+    @Override
     @SubmitToKafka(topic = "NewCustomer")
     public PersonDTO createPerson(PersonDTO personDTO) {
         Person person = personRepository.save(personMapper.toPerson(personDTO));
