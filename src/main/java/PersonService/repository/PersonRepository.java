@@ -34,4 +34,10 @@ public interface PersonRepository extends JpaRepository<Person, Long>, JpaSpecif
                 .and(PersonSpecification.ageBetween(fromAge, toAge));
         return this.findAll(specification, pageable);
     }
+
+    default List<Person> findAllBySearchSubSrtingInNames(String userName) {
+        Specification<Person> specification = Specification.where(PersonSpecification.checkFirstName(userName))
+                .or(PersonSpecification.checkLastName(userName));
+        return this.findAll(specification);
+    }
 }

@@ -8,6 +8,7 @@ import PersonService.mappers.PersonMapper;
 import PersonService.model.Person;
 import PersonService.repository.PersonRepository;
 import aws.AwsClient;
+import dto.notification.PersonOnline;
 import dto.userDto.PersonDTO;
 import kafka.annotation.SubmitToKafka;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +18,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import security.dto.TokenData;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -158,6 +161,13 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    public Set<PersonDTO> getAccountByIds(List<Long> usersId) {
+        return personRepository.findAllByIdIn(usersId).stream()
+                .map(personMapper::toPersonDTOWithoutAddress)
+                .collect(Collectors.toSet());
+    }
+
+    @Override
     public PersonDTO getPersonById(Long id) {
         return personRepository.findPersonById(id)
                 .map(personMapper::toPersonDTOWithoutAddress)
@@ -199,13 +209,6 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public PersonDTO searchByFilter(){
-        Optional<Person> tempPerson = Optional.empty();
-        return tempPerson.map(personMapper::toPersonDTOWithoutAddress).orElseThrow(() ->
-                new PersonException("Warning! Установлена заглушка на  searchByFilter!", HttpStatus.BAD_REQUEST));
-    }
-
-    @Override
     public Page<PersonDTO> search(String address, String firstName, String lastName,
                                   Integer ageFrom, Integer ageTo, Pageable pageable) {
         List<PersonDTO> persons = personRepository.findAllBySearchFilter(address, firstName, lastName,
@@ -213,6 +216,21 @@ public class PersonServiceImpl implements PersonService {
                 .map(personMapper::toPersonDTO)
                 .collect(Collectors.toList());
         return new PageImpl<>(persons);
+    }
+
+    @Override
+    public Set<PersonDTO> searchAllBySubstringInFirstOrLastName(String subName) {
+        return personRepository.findAllBySearchSubSrtingInNames(subName).stream()
+                .map(personMapper::toPersonDTO)
+                .collect(Collectors.toSet());
+    }
+
+    @Override
+    public void updateOnlineStatus(PersonOnline personOnline) {
+        Person person = personRepository.findById(personOnline.getPersonId())
+                .orElseThrow(() -> new PersonException("Error! Person not found!"));
+        person.setIsOnline(personOnline.getIsOnline());
+        personRepository.save(person);
     }
 
 }

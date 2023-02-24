@@ -17,6 +17,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -103,12 +104,6 @@ public class PersonController {
         return personService.deleteMyAccount(authentication.getTokenData().getEmail());
     }
 
-    @Operation(summary = "Поиск аккаунта по фильтру")
-    @PostMapping("/searchByFilter")
-    public PersonDTO SearchByFilter() {
-        return personService.searchByFilter();
-    }
-
     @Operation(summary = "Поиск по адресу, имени, диапазону возрастов ")
     @GetMapping("/search")
     public Page<PersonDTO> searchAccounts(
@@ -122,6 +117,12 @@ public class PersonController {
     ) {
         return personService.search(address, firstName, lastName, ageMin, ageMax, PageRequest.of(page, limit));
 
+    @Operation(summary = "Поиск по подстроке в имени или фамилии")
+    @GetMapping("/searchByName")
+    public Set<PersonDTO> searchAllBySubstringInFirstOrLastName(
+            @RequestParam(value = "subName", required = false) String subName
+    ) {
+        return personService.searchAllBySubstringInFirstOrLastName(subName);
     }
 
     @Operation(summary = "Получение всех ID аккаунтов")
@@ -132,8 +133,8 @@ public class PersonController {
 
     @Operation(summary = "Получение аккаунтов по их ID")
     @GetMapping("/accountIds")
-    public String getAccountByIds() {
-        return "search all accounts emulation";
+    public Set<PersonDTO> getAccountByIds(@RequestParam List<Long> usersId) {
+        return personService.getAccountByIds(usersId);
     }
 
     @Operation(summary = "Обновить данные пользователя")
