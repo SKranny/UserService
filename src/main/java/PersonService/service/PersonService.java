@@ -47,4 +47,7 @@ public interface PersonService {
 
     List<Long> getAllIds();
 
+    PersonDTO addAdminRoleById(Long id);
+
+    PersonDTO delAdminRoleById(Long id);
 }

@@ -6,8 +6,10 @@ import PersonService.exception.PersonException;
 import PersonService.feighnClient.FriendService;
 import PersonService.mappers.PersonMapper;
 import PersonService.model.Person;
+import PersonService.model.Role;
 import PersonService.repository.PersonRepository;
 import aws.AwsClient;
+import constants.RoleType;
 import dto.userDto.PersonDTO;
 import kafka.annotation.SubmitToKafka;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,8 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import java.util.Set;
 
 
 @Service
@@ -199,5 +203,27 @@ public class PersonServiceImpl implements PersonService {
                 .collect(Collectors.toList());
         return new PageImpl<>(persons);
     }
+
+    @Override
+    public PersonDTO addAdminRoleById(Long id) {
+        Person person = personRepository.findPersonById(id)
+                .orElseThrow(() -> new PersonException("Error! Id is incorrect!", HttpStatus.BAD_REQUEST));
+        Set<Role> roleSet = person.getRoles();
+        roleSet.add(new Role(id, RoleType.ROLE_ADMIN));
+        person.setRoles(roleSet);
+        PersonDTO personMapper1 = personMapper.toPersonDTO(personRepository.save(person));
+        return personMapper1;
+    }
+
+    @Override
+    public PersonDTO delAdminRoleById(Long id) {
+        Person person = personRepository.findPersonById(id)
+                .orElseThrow(() -> new PersonException("Error! Id is incorrect!", HttpStatus.BAD_REQUEST));
+        Set<Role> roleSet = person.getRoles();
+        roleSet.remove(new Role(id, RoleType.ROLE_ADMIN));
+        person.setRoles(roleSet);
+        return personMapper.toPersonDTOWithoutAddress(personRepository.save(person));
+    }
+
 
 }

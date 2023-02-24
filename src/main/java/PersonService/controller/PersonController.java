@@ -141,4 +141,16 @@ public class PersonController {
     public String deletePhoto(Long id){
         return personService.deletePhoto(id);
     }
+
+    @Operation(summary = "Дать пользвателю по ID админские права")
+    @PutMapping("/admin/{id}")
+    public PersonDTO addAdminAccountById(@PathVariable Long id) {
+        return personService.addAdminRoleById(id);
+    }
+
+    @Operation(summary = "отобрать у пользователя по ID админские права")
+    @DeleteMapping("/admin/{id}")
+    public PersonDTO addAdminRolebyId(@PathVariable Long id) {
+        return personService.delAdminRoleById(id);
+    }
 }
