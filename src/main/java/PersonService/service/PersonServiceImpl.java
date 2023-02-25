@@ -128,6 +128,13 @@ public class PersonServiceImpl implements PersonService {
                 .collect(Collectors.toList());
     }
 
+    public PersonDTO authtorizationPerson(LoginRequest loginRequest) {
+        Person person = personRepository.findPersonByEmail(loginRequest.getEmail())
+                .filter(p -> p.getPassword().equals(loginRequest.getPassword()))
+                .orElseThrow(() -> new PersonException("Error! User or email is incorrect!", HttpStatus.BAD_REQUEST));
+        person.setIsDeleted(false);
+        return personMapper.toPersonDTOWithoutAddress(personRepository.save(person));
+    }
 
     @Override
     public PersonDTO recoveryPerson(LoginRequest loginRequest) {

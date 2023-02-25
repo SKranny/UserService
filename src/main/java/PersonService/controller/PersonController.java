@@ -38,6 +38,8 @@ public class PersonController {
         return personService.findPersonsByFriend();
     }
 
+
+
     @Operation(summary = "Получить всех активных пользователей")
     @GetMapping("/active")
     public List<PersonDTO> getAllActivePersons() {
@@ -116,7 +118,7 @@ public class PersonController {
             @RequestParam(value = "offset", defaultValue = "20", required = false) Integer limit
     ) {
         return personService.search(address, firstName, lastName, ageMin, ageMax, PageRequest.of(page, limit));
-
+    }
     @Operation(summary = "Поиск по подстроке в имени или фамилии")
     @GetMapping("/searchByName")
     public Set<PersonDTO> searchAllBySubstringInFirstOrLastName(
