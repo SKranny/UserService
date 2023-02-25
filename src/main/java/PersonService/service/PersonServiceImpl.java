@@ -128,6 +128,7 @@ public class PersonServiceImpl implements PersonService {
                 .collect(Collectors.toList());
     }
 
+
     @Override
     public PersonDTO recoveryPerson(LoginRequest loginRequest) {
         Person person = personRepository.findPersonByEmail(loginRequest.getEmail())

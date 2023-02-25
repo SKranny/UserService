@@ -32,7 +32,7 @@ public class PersonController {
         return personService.getPersonById(id);
     }
 
-    @Operation(summary = "Получить всех пользователей")
+    @Operation(summary = "Получить список друзей")
     @GetMapping("/find")
     public List<PersonDTO> findPersonsByFriend() {
         return personService.findPersonsByFriend();
