@@ -109,15 +109,14 @@ public class PersonController {
     @Operation(summary = "Поиск по адресу, имени, диапазону возрастов ")
     @GetMapping("/search")
     public Page<PersonDTO> searchAccounts(
-            @RequestParam(value = "firstName", required = false) String firstName,
-            @RequestParam(value = "lastName", required = false) String lastName,
+            @RequestParam(name = "author", required = false) String authorSubStrings,
             @RequestParam(value = "address", required = false) String address,
             @Valid @Min(0) @Max(MAX_AGE) @RequestParam(value = "ageFrom", required = false) Integer ageMin,
             @Valid @Min(0) @Max(MAX_AGE) @RequestParam(value = "ageTo", required = false) Integer ageMax,
             @Valid @Min(0) @RequestParam(value = "page", defaultValue = "0", required = false) Integer page,
             @RequestParam(value = "offset", defaultValue = "20", required = false) Integer limit
     ) {
-        return personService.search(address, firstName, lastName, ageMin, ageMax, PageRequest.of(page, limit));
+        return personService.search(address, authorSubStrings, ageMin, ageMax, PageRequest.of(page, limit));
     }
     @Operation(summary = "Поиск по подстроке в имени или фамилии")
     @GetMapping("/searchByName")

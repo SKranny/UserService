@@ -24,9 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -66,7 +64,7 @@ public class PersonServiceImpl implements PersonService {
         return personRepository.findAllByIsBlockedIsTrue().stream()
                 .map(personMapper::toPersonDTOWithoutAddress)
                 .collect(Collectors.toList());
-    };
+    }
 
 
     @Override
@@ -221,19 +219,39 @@ public class PersonServiceImpl implements PersonService {
                 new PersonException("Error! User not found", HttpStatus.BAD_REQUEST));
     }
 
-    @Override
-    public Page<PersonDTO> search(String address, String firstName, String lastName,
-                                  Integer ageFrom, Integer ageTo, Pageable pageable) {
-        List<PersonDTO> persons = personRepository.findAllBySearchFilter(address, firstName, lastName,
-                        ageFrom, ageTo, pageable).stream()
-                .map(personMapper::toPersonDTO)
-                .collect(Collectors.toList());
-        return new PageImpl<>(persons);
+    private List<Person> findAllUsersBySubstringsInFirstOrLastNames(String authorSubstringsInNames) {
+        String[] words = authorSubstringsInNames.split("\\s");
+        List<Person> personList = personRepository.findAllBySearchSubStringInNames(words[0]);
+        for (int i = 1; i < words.length; i++) {
+            personList.retainAll(personRepository.findAllBySearchSubStringInNames(words[i]));
+        }
+        return personList;
     }
 
     @Override
+    public Page<PersonDTO> search(String address, String authorSubstrings,
+                                  Integer ageFrom, Integer ageTo, Pageable pageable) {
+
+        List<Person> persons = new ArrayList<>(personRepository.findAllBySearchFilter(address, ageFrom, ageTo));
+        if (authorSubstrings == null || authorSubstrings.isEmpty()) {
+            return new PageImpl<>(persons
+                    .stream()
+                    .map(personMapper::toPersonDTO)
+                    .collect(Collectors.toList()));
+        }
+
+        List<Person> finalPersonList = findAllUsersBySubstringsInFirstOrLastNames(authorSubstrings);
+        return new PageImpl<>(persons
+                .stream()
+                .filter(finalPersonList::contains)
+                .map(personMapper::toPersonDTO)
+                .collect(Collectors.toList()));
+    }
+
+
+    @Override
     public Set<PersonDTO> searchAllBySubstringInFirstOrLastName(String subName) {
-        return personRepository.findAllBySearchSubSrtingInNames(subName).stream()
+        return personRepository.findAllBySearchSubStringInNames(subName).stream()
                 .map(personMapper::toPersonDTO)
                 .collect(Collectors.toSet());
     }
