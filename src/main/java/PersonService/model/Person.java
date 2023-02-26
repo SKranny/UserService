@@ -3,12 +3,13 @@ package PersonService.model;
 import PersonService.mappers.enums.StatusCode;
 import constants.MessagesPermission;
 import lombok.*;
-
+import org.hibernate.annotations.Cascade;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
+
 
 
 @Entity

@@ -7,8 +7,10 @@ import PersonService.feighnClient.FriendService;
 import PersonService.mappers.PersonMapper;
 import PersonService.model.Person;
 import PersonService.repository.PersonRepository;
+import PersonService.repository.RoleRepository;
 import aws.AwsClient;
 import dto.notification.PersonOnline;
+import constants.RoleType;
 import dto.userDto.PersonDTO;
 import kafka.annotation.SubmitToKafka;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +20,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import security.dto.TokenData;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -28,6 +30,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import java.util.Set;
 
 
 @Service
@@ -41,6 +45,7 @@ public class PersonServiceImpl implements PersonService {
     private final PersonMapper personMapper;
 
     private final AwsClient awsClient;
+    private final RoleRepository roleRepository;
 
     @Override
     public List<PersonDTO> findPersonsByFriend() {
@@ -218,4 +223,24 @@ public class PersonServiceImpl implements PersonService {
         personRepository.save(person);
     }
 
+    @Transactional
+    public PersonDTO addAdminRoleById(Long id) {
+        Person person = personRepository.findPersonById(id)
+                .orElseThrow(() -> new PersonException("Error! Id is incorrect!", HttpStatus.BAD_REQUEST));
+        person.getRoles().add(roleRepository.findByRole(RoleType.ROLE_ADMIN)
+                .orElseThrow(() -> new PersonException("Error! Role not found!")));
+        PersonDTO personDTO = personMapper.toPersonDTO(personRepository.save(person));
+        personDTO.setPassword(null);
+        return personDTO;
+    }
+
+    @Override
+    public PersonDTO delAdminRoleById(Long id) {
+        Person person = personRepository.findPersonById(id)
+                .orElseThrow(() -> new PersonException("Error! Id is incorrect!", HttpStatus.BAD_REQUEST));
+        person.setRoles(person.getRoles().stream().filter(r -> !r.getRole().equals(RoleType.ROLE_ADMIN)).collect(Collectors.toSet()));
+        PersonDTO personDTO = personMapper.toPersonDTOWithoutAddress(personRepository.save(person));
+        personDTO.setPassword(null);
+        return personDTO;
+    }
 }

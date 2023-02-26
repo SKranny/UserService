@@ -53,4 +53,8 @@ public interface PersonService {
     Set<PersonDTO> searchAllBySubstringInFirstOrLastName(String userName);
 
     void updateOnlineStatus(PersonOnline personOnline);
+
+    PersonDTO addAdminRoleById(Long id);
+
+    PersonDTO delAdminRoleById(Long id);
 }
