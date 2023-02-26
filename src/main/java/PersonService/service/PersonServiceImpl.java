@@ -8,6 +8,7 @@ import PersonService.mappers.PersonMapper;
 import PersonService.model.Person;
 import PersonService.model.Role;
 import PersonService.repository.PersonRepository;
+import PersonService.repository.RoleRepository;
 import aws.AwsClient;
 import constants.RoleType;
 import dto.userDto.PersonDTO;
@@ -20,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -42,6 +44,7 @@ public class PersonServiceImpl implements PersonService {
     private final PersonMapper personMapper;
 
     private final AwsClient awsClient;
+    private final RoleRepository roleRepository;
 
     @Override
     public List<PersonDTO> findPersonsByFriend() {
@@ -205,12 +208,14 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    @Transactional
     public PersonDTO addAdminRoleById(Long id) {
         Person person = personRepository.findPersonById(id)
                 .orElseThrow(() -> new PersonException("Error! Id is incorrect!", HttpStatus.BAD_REQUEST));
         Set<Role> roleSet = person.getRoles();
         roleSet.add(new Role(id, RoleType.ROLE_ADMIN));
         person.setRoles(roleSet);
+        personRepository.save(person);
         PersonDTO personMapper1 = personMapper.toPersonDTO(personRepository.save(person));
         return personMapper1;
     }

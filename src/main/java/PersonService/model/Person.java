@@ -3,12 +3,13 @@ package PersonService.model;
 import PersonService.mappers.enums.StatusCode;
 import constants.MessagesPermission;
 import lombok.*;
-
+import org.hibernate.annotations.Cascade;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
+
 
 
 @Entity
@@ -60,7 +61,8 @@ public class Person {
 
     @NotNull
     @Column(nullable = false)
-    @ManyToMany(fetch = FetchType.EAGER)
+//   @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinTable(name = "person2role",
             joinColumns = @JoinColumn(name = "person_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
