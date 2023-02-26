@@ -212,22 +212,21 @@ public class PersonServiceImpl implements PersonService {
     public PersonDTO addAdminRoleById(Long id) {
         Person person = personRepository.findPersonById(id)
                 .orElseThrow(() -> new PersonException("Error! Id is incorrect!", HttpStatus.BAD_REQUEST));
-        Set<Role> roleSet = person.getRoles();
-        roleSet.add(new Role(id, RoleType.ROLE_ADMIN));
-        person.setRoles(roleSet);
-        personRepository.save(person);
-        PersonDTO personMapper1 = personMapper.toPersonDTO(personRepository.save(person));
-        return personMapper1;
+        person.getRoles().add(roleRepository.findByRole(RoleType.ROLE_ADMIN)
+                .orElseThrow(() -> new PersonException("Error! Role not found!")));
+        PersonDTO personDTO = personMapper.toPersonDTO(personRepository.save(person));
+        personDTO.setPassword(null);
+        return personDTO;
     }
 
     @Override
     public PersonDTO delAdminRoleById(Long id) {
         Person person = personRepository.findPersonById(id)
                 .orElseThrow(() -> new PersonException("Error! Id is incorrect!", HttpStatus.BAD_REQUEST));
-        Set<Role> roleSet = person.getRoles();
-        roleSet.remove(new Role(id, RoleType.ROLE_ADMIN));
-        person.setRoles(roleSet);
-        return personMapper.toPersonDTOWithoutAddress(personRepository.save(person));
+        person.setRoles(person.getRoles().stream().filter(r -> !r.getRole().equals(RoleType.ROLE_ADMIN)).collect(Collectors.toSet()));
+        PersonDTO personDTO = personMapper.toPersonDTOWithoutAddress(personRepository.save(person));
+        personDTO.setPassword(null);
+        return personDTO;
     }
 
 

@@ -150,7 +150,7 @@ public class PersonController {
 
     @Operation(summary = "отобрать у пользователя по ID админские права")
     @DeleteMapping("/admin/{id}")
-    public PersonDTO addAdminRolebyId(@PathVariable Long id) {
+    public PersonDTO deleteAdminRoleById(@PathVariable Long id) {
         return personService.delAdminRoleById(id);
     }
 }
