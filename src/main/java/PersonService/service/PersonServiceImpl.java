@@ -55,6 +55,21 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    public List<PersonDTO> findAllActivePersons(){
+        return personRepository.findAllByIsBlockedIsFalse().stream()
+                .map(personMapper::toPersonDTOWithoutAddress)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+   public List<PersonDTO> findAllBlockedPersons(){
+        return personRepository.findAllByIsBlockedIsTrue().stream()
+                .map(personMapper::toPersonDTOWithoutAddress)
+                .collect(Collectors.toList());
+    };
+
+
+    @Override
     @SubmitToKafka(topic = "NewCustomer")
     public PersonDTO createPerson(PersonDTO personDTO) {
         Person person = personRepository.save(personMapper.toPerson(personDTO));
@@ -116,6 +131,14 @@ public class PersonServiceImpl implements PersonService {
                 .stream()
                 .map(personMapper::toPersonDTOWithoutAddress)
                 .collect(Collectors.toList());
+    }
+
+    public PersonDTO authtorizationPerson(LoginRequest loginRequest) {
+        Person person = personRepository.findPersonByEmail(loginRequest.getEmail())
+                .filter(p -> p.getPassword().equals(loginRequest.getPassword()))
+                .orElseThrow(() -> new PersonException("Error! User or email is incorrect!", HttpStatus.BAD_REQUEST));
+        person.setIsDeleted(false);
+        return personMapper.toPersonDTOWithoutAddress(personRepository.save(person));
     }
 
     @Override
