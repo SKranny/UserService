@@ -61,8 +61,7 @@ public class Person {
 
     @NotNull
     @Column(nullable = false)
-//   @ManyToMany(fetch = FetchType.EAGER)
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+   @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "person2role",
             joinColumns = @JoinColumn(name = "person_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
