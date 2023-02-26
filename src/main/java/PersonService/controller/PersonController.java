@@ -2,7 +2,9 @@ package PersonService.controller;
 
 import PersonService.dto.LoginRequest;
 import PersonService.dto.UpdatePersonRequest;
+import PersonService.feighnClient.BetweenDataRequest;
 import PersonService.service.PersonService;
+import dto.postDto.PostDTO;
 import dto.userDto.PersonDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -166,5 +168,10 @@ public class PersonController {
     @DeleteMapping("/admin/{id}")
     public PersonDTO deleteAdminRoleById(@PathVariable Long id) {
         return personService.delAdminRoleById(id);
+    }
+
+    @GetMapping("/allBetween")
+    public List<PersonDTO> getAllPostsByTimeBetween(BetweenDataRequest request){
+        return personService.getAllPersonsDTOByTimeBetween(request.getDate1(),request.getDate2());
     }
 }

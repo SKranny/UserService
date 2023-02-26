@@ -2,10 +2,12 @@ package PersonService.repository;
 
 import PersonService.repository.specifications.PersonSpecification;
 import PersonService.model.Person;
+import dto.userDto.PersonDTO;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -34,4 +36,6 @@ public interface PersonRepository extends JpaRepository<Person, Long>, JpaSpecif
                 .or(PersonSpecification.checkLastName(userName));
         return this.findAll(specification);
     }
+
+    List<Person> findAllPersonsByTimeBetween(LocalDate date1, LocalDate date2);
 }

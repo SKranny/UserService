@@ -284,4 +284,12 @@ public class PersonServiceImpl implements PersonService {
         personDTO.setPassword(null);
         return personDTO;
     }
+
+    @Override
+    public List<PersonDTO> getAllPersonsDTOByTimeBetween(LocalDate date1, LocalDate date2){
+        return personRepository.findAllPersonsByTimeBetween(date1,date2)
+                .stream()
+                .map(personMapper::toPersonDTO)
+                .collect(Collectors.toList());
+    }
 }
