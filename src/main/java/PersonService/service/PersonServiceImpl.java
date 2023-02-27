@@ -180,13 +180,6 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public PersonDTO getPersonById(Long id) {
-        if(friendService.getFriendId().contains(id)){
-            PersonDTO personDTO = personRepository.findPersonById(id)
-                    .map(personMapper::toPersonDTOWithoutAddress)
-                    .orElseThrow(() -> new PersonException("Error! User with this email not found!"));
-            personDTO.setIsFriend(true);
-            return personDTO;
-        }
         return personRepository.findPersonById(id)
                 .map(personMapper::toPersonDTOWithoutAddress)
                 .orElseThrow(() -> new PersonException("Error! User with this email not found!"));
