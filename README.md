@@ -1,4 +1,4 @@
-### Java Spring project
+# Java Spring project "Social networking site"
 User-service
 
 This service provides a variety of user management features such as 
