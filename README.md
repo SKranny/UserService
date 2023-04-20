@@ -30,3 +30,4 @@ User-service is responsible for all functionality related to users of our social
     - KAFKA_HOST(The address of the Kafka broker. The default host is localhost:9092. Replace it if you are not going to use the default)
     - SECRET_KEY (Your application's secret key. This is needed to protect your service which uses JWT technology)
     - EUREKA_URI (Address of your Eureka server. Specify it if you are not going to use the default address: http://localhost:8081/eureka)
+2. Run the PersonApplication.java
