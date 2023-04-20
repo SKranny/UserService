@@ -1,10 +1,10 @@
 # Java Spring project "Social networking site"
 ### User-service
 ## Description
-This service provides a variety of user management features such as 
+User service is responsible for all functionality related to users of our social network, except authorization. For example: 
 - user registration
 - deleting user accounts
-- retrieve account information
+- retrieving account information and many others.
 and many others.
 ## Technologies
 - Java version 11
