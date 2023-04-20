@@ -1,11 +1,10 @@
 # Java Spring project "Social networking site"
 ### User-service
 ## Description
-User service is responsible for all functionality related to users of our social network, except authorization. For example: 
+User-service is responsible for all functionality related to users of our social network, except authorization. For example: 
 - user registration
 - deleting user accounts
 - retrieving account information and many others.
-and many others.
 ## Technologies
 - Java version 11
 - Spring Framework
@@ -21,4 +20,5 @@ and many others.
 - Nexus repository
 - Kafka
 - Swagger OpenApi
+- JUnit
 ## Technical description
