@@ -20,6 +20,7 @@ User-service is responsible for all functionality related to users of our social
 - Nexus repository
 - Kafka
 - Aws Amazon Java SDK
+- Yandex Cloud Bucket
 - Swagger OpenApi
 - JUnit
 ## Technical description
