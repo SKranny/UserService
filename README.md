@@ -5,7 +5,7 @@ User-service is responsible for all functionality related to users of our social
 - user registration
 - deleting user accounts
 - retrieving account information and many others.
-## Technologies
+## Service technologies
 - Java version 11
 - Spring Framework
 - Flyway
@@ -19,6 +19,7 @@ User-service is responsible for all functionality related to users of our social
 - JWT(JsonWebToken)
 - Nexus repository
 - Kafka
+- Aws Amazon Java SDK
 - Swagger OpenApi
 - JUnit
 ## Technical description
